@@ -7,7 +7,7 @@ description: Use for any Python packaging or environment task with Astral's uv (
 
 uv is a single Rust binary that replaces pyenv, venv/virtualenv, pip, pip-tools, pipx, Poetry-style project management and twine. This skill was verified against **uv 0.13.1** and **Ruff 0.17.0**. uv changes quickly, and several defaults changed in 2026, so **prefer this file over prior knowledge** where they disagree.
 
-Human-readable companion: the uv Field Guide (`uv-guide.md` at the root of this repository).
+Human-readable companion: the uv Field Guide, https://robert-mcdermott.github.io/uv-field-guide/ (source: https://github.com/robert-mcdermott/uv-field-guide).
 
 ## First, orient yourself
 

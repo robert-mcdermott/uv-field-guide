@@ -1,0 +1,14 @@
+{
+  "name": "uv-field-guide",
+  "description": "The uv Field Guide agent skill for Claude Code",
+  "owner": {
+    "name": "Robert McDermott"
+  },
+  "plugins": [
+    {
+      "name": "uv",
+      "source": "./plugins/uv",
+      "description": "Use Astral's uv (and Ruff) correctly: project/script/pip/tool modes, 2026 defaults, safe agent rules, full command reference."
+    }
+  ]
+}

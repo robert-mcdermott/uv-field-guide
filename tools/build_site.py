@@ -12,6 +12,7 @@ import html
 import json
 import re
 import shutil
+import zipfile
 from pathlib import Path
 
 import markdown
@@ -31,7 +32,7 @@ GROUPS = [
     ("pip and interop", range(10, 12)),
     ("Shipping code", range(12, 14)),
     ("Quality and config", range(14, 18)),
-    ("Team and reference", range(18, 24)),
+    ("Team and reference", range(18, 25)),
 ]
 
 
@@ -216,10 +217,17 @@ def main() -> None:
     )
     (OUT / ".nojekyll").write_text("")
     shutil.copy(MD, OUT / "uv-guide.md")
-    # Publish the agent skill alongside the site so the website can link to it.
-    skills = ROOT.parent / "skills"
-    if skills.exists():
-        shutil.copytree(skills, OUT / "skills", dirs_exist_ok=True)
+    # Package the agent skill as a downloadable zip (one top-level "uv/" folder).
+    skill_dir = ROOT.parent / "plugins" / "uv" / "skills" / "uv"
+    if skill_dir.exists():
+        (OUT / "downloads").mkdir(exist_ok=True)
+        with zipfile.ZipFile(OUT / "downloads" / "uv-skill.zip", "w", zipfile.ZIP_DEFLATED) as zf:
+            for f in sorted(skill_dir.rglob("*")):
+                if f.is_file():
+                    info = zipfile.ZipInfo(str(Path("uv") / f.relative_to(skill_dir)), date_time=(2026, 1, 1, 0, 0, 0))
+                    info.compress_type = zipfile.ZIP_DEFLATED
+                    info.external_attr = 0o644 << 16
+                    zf.writestr(info, f.read_bytes())
 
     page = (SRC / "page.html").read_text()
     page = (

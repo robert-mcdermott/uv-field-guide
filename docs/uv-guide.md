@@ -4,7 +4,7 @@
 
 > Written for **uv 0.13.1** and **Ruff 0.17.0** (October 2026). Every command in this guide was run against those versions. uv moves quickly, so if something looks different on your machine, run `uv self version` and check the [uv changelog](https://github.com/astral-sh/uv/blob/main/CHANGELOG.md).
 
-> **Using an AI coding agent?** This repository also includes a companion **agent skill** for uv: [`skills/uv/SKILL.md`](skills/uv/SKILL.md). It condenses this guide into decision rules, current defaults and gotchas that override an agent's older training data, with reference files for the details. Drop the `skills/uv/` folder into your agent's skills directory (for Claude Code: `~/.claude/skills/uv/` or `.claude/skills/uv/` in a repo).
+> **Using an AI coding agent?** A companion **uv agent skill** condenses this guide into decision rules, current defaults and gotchas that override an agent's older training data. In Claude Code, install it with `/plugin install uv --marketplace robert-mcdermott/uv-field-guide`. For other options, including a zip download, see [section 24](#24-the-uv-agent-skill-for-ai-coding-assistants).
 
 ---
 
@@ -33,6 +33,7 @@
 21. [Gotchas and troubleshooting](#21-gotchas-and-troubleshooting)
 22. [Complete command reference](#22-complete-command-reference)
 23. [What changed recently (0.10 → 0.13)](#23-what-changed-recently-010--013)
+24. [The uv agent skill for AI coding assistants](#24-the-uv-agent-skill-for-ai-coding-assistants)
 
 ---
 
@@ -1714,7 +1715,7 @@ A starting point for a team adopting uv:
 8. **Upgrades are explicit and reviewed:** `uv lock --upgrade-package X` or `uv lock --upgrade` in a dedicated PR; review the `uv.lock` diff. Consider `exclude-newer = "7 days"` as a supply-chain cooldown.
 9. **CI** runs `uv lock --check`, `uv sync --locked`, `uv run ruff check`, `uv run ruff format --check`, `uv run pytest` (and optionally `uv audit`).
 10. **Hand-offs to pip users:** generate `requirements.txt` with `uv export` via the pre-commit hook rather than by hand.
-11. **AI coding agents:** give them the uv agent skill ([`skills/uv/SKILL.md`](skills/uv/SKILL.md)) so they follow the same rules (no `pip install` into project venvs, `uv run` for everything, `--locked` in CI).
+11. **AI coding agents:** give them the [uv agent skill](#24-the-uv-agent-skill-for-ai-coding-assistants) so they follow the same rules (no `pip install` into project venvs, `uv run` for everything, `--locked` in CI).
 12. **Onboarding a new developer is two commands:** `git clone … && cd repo && uv sync`. Then `uv run pytest`.
 
 A starter `.gitignore` for uv projects:
@@ -1960,9 +1961,59 @@ If you learned uv in 2025, these are the changes most likely to surprise you:
 
 ---
 
-### Further reading
+---
 
-- uv agent skill for AI coding assistants (companion to this guide): [`skills/uv/SKILL.md`](skills/uv/SKILL.md)
+## 24. The uv agent skill for AI coding assistants
+
+AI coding agents (Claude Code, Codex, Cursor and others) learned uv from older documentation. Left alone, they create flat `main.py` projects, run `pip install` inside uv-managed environments, or reach for renamed flags. The **uv agent skill** packages the rules from this guide in a form agents load automatically.
+
+What's in it:
+
+- `SKILL.md`: how to recognize the situation (project, script, requirements.txt repo, tool), the 2026 defaults that override older training data, ten safety rules for agents (never hand-edit `uv.lock`, never `pip install` into a project venv, use `uv run`, `--locked` in CI…), the everyday commands, and a troubleshooting table.
+- `references/`: seven detail files the agent opens only when needed: the full command reference, pip and requirements.txt interop, building and publishing, workspaces/CI/Docker, configuration and private indexes, Ruff, and migration tables.
+
+### Install in Claude Code (recommended)
+
+This repository is a Claude Code plugin marketplace. Inside a Claude Code session:
+
+```text
+/plugin install uv --marketplace robert-mcdermott/uv-field-guide
+```
+
+That one-step form needs Claude Code 2.1.275 or later. With any recent version, from your shell:
+
+```bash
+claude plugin marketplace add robert-mcdermott/uv-field-guide
+claude plugin install uv@uv-field-guide
+```
+
+Installing through the marketplace makes updates easy when the skill is revised: run `claude plugin marketplace update uv-field-guide`, then `claude plugin update uv@uv-field-guide` (or use the `/plugin` panel). Remove it with `claude plugin uninstall uv@uv-field-guide`.
+
+### Install from the zip (Claude Code or any agent)
+
+Download [uv-skill.zip](https://robert-mcdermott.github.io/uv-field-guide/downloads/uv-skill.zip). It contains one folder, `uv/`, with `SKILL.md` and `references/`.
+
+```bash
+# Claude Code, available in every project
+curl -fsSL -o /tmp/uv-skill.zip https://robert-mcdermott.github.io/uv-field-guide/downloads/uv-skill.zip
+mkdir -p ~/.claude/skills && unzip -o /tmp/uv-skill.zip -d ~/.claude/skills/
+
+# Claude Code, for one repository (commit .claude/skills/uv so teammates get it)
+unzip -o /tmp/uv-skill.zip -d .claude/skills/
+```
+
+For other agents, unzip the folder wherever that agent reads skills or instructions from, or point it at `uv/SKILL.md` from your `AGENTS.md`.
+
+### Install from a clone
+
+```bash
+git clone --depth 1 https://github.com/robert-mcdermott/uv-field-guide.git /tmp/uv-field-guide
+cp -r /tmp/uv-field-guide/plugins/uv/skills/uv ~/.claude/skills/
+```
+
+Browse the skill's source on GitHub: [plugins/uv/skills/uv](https://github.com/robert-mcdermott/uv-field-guide/tree/main/plugins/uv/skills/uv).
+
+### Further reading
 
 - uv documentation: <https://docs.astral.sh/uv/>
 - uv changelog: <https://github.com/astral-sh/uv/blob/main/CHANGELOG.md>

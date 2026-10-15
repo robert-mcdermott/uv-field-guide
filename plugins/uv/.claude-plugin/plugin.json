@@ -1,0 +1,12 @@
+{
+  "name": "uv",
+  "description": "Teaches Claude to use Astral's uv (and Ruff) correctly: current defaults, safe rules for agents, and a full command reference. Verified against uv 0.13.1.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Robert McDermott"
+  },
+  "homepage": "https://robert-mcdermott.github.io/uv-field-guide/",
+  "repository": "https://github.com/robert-mcdermott/uv-field-guide",
+  "license": "Apache-2.0",
+  "keywords": ["python", "uv", "ruff", "packaging"]
+}
