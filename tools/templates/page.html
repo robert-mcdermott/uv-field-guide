@@ -1,0 +1,118 @@
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">uv</span>
+      <span class="brand-text">Field Guide</span>
+    </a>
+    <button class="search-trigger" id="searchOpen" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="search-trigger-text">Search commands and topics</span>
+      <kbd class="kbd" id="searchKbd">/</kbd>
+    </button>
+    <div class="topbar-right">
+      <span class="chip chip-version" title="Versions this guide was tested against">uv {{UV_VERSION}} · ruff {{RUFF_VERSION}}</span>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+</header>
+
+<div class="layout" id="top">
+  <nav class="sidebar" id="sidebar" aria-label="Guide sections">
+    <div class="sidebar-inner">
+      {{NAV}}
+      <div class="nav-group nav-extra">
+        <p class="nav-label">Downloads</p>
+        <ul>
+          <li><a href="uv-guide.md">Markdown version</a></li>
+          <li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">Official uv docs</a></li>
+          <li><a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Official Ruff docs</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <main class="main" id="main">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Team handbook · updated {{UPDATED}}</p>
+        <h1>The uv Field Guide</h1>
+        <p class="lede">Everything a Python team needs to move onto <strong>uv</strong>: installing Python, starting projects, managing dependencies, running scripts and tools, staying compatible with plain <code>pip</code>, and publishing to PyPI. Includes a little <strong>Ruff</strong>. Every example was run on the versions in the header.</p>
+        <div class="hero-meta">
+          <span class="chip">Replaces pip · pip-tools · pipx · pyenv · virtualenv · twine</span>
+          <span class="chip">Universal lockfile</span>
+          <span class="chip">Standards-based pyproject.toml</span>
+        </div>
+      </div>
+      <figure class="terminal" aria-label="Quick start terminal session">
+        <div class="terminal-bar"><span></span><span></span><span></span><em>quick start</em></div>
+<pre class="terminal-body"><span class="t-c"># install uv (macOS / Linux)</span>
+<span class="t-p">$</span> curl -LsSf https://astral.sh/uv/install.sh | sh
+<span class="t-c"># create an app pinned to Python 3.13</span>
+<span class="t-p">$</span> uv init weather-cli -p 3.13 &amp;&amp; cd weather-cli
+<span class="t-p">$</span> uv add httpx rich
+<span class="t-p">$</span> uv run weather-cli Seattle
+<span class="t-o">       Weather in Seattle, US
+┌─────────────┬────────────────────┐
+│ Metric      │ Value              │
+├─────────────┼────────────────────┤
+│ Temperature │ 11.6 °C  (52.9 °F) │
+│ Wind        │ 6.5 km/h           │
+└─────────────┴────────────────────┘</span></pre>
+      </figure>
+    </div>
+
+    <section class="paths" aria-labelledby="pathsTitle">
+      <h2 class="paths-title" id="pathsTitle">Jump to a task</h2>
+      <div class="paths-grid">
+        <a class="path" href="#5-creating-projects"><span class="path-k">Start a new app or library</span><code>uv init my-app -p 3.13</code></a>
+        <a class="path" href="#6-managing-dependencies-with-uv-add-and-uv-remove"><span class="path-k">Add a dependency</span><code>uv add httpx</code></a>
+        <a class="path" href="#8-single-file-scripts-with-inline-dependencies"><span class="path-k">Run a one-file script</span><code>uv run --with rich demo.py</code></a>
+        <a class="path" href="#9-tools-uvx-and-uv-tool"><span class="path-k">Use a CLI tool</span><code>uvx ruff check</code></a>
+        <a class="path" href="#11-working-with-vanilla-pip-users-requirementstxt-in-both-directions"><span class="path-k">Share with pip users</span><code>uv export -o requirements.txt</code></a>
+        <a class="path" href="#12-building-and-publishing-packages-to-pypi"><span class="path-k">Publish to PyPI</span><code>uv build &amp;&amp; uv publish</code></a>
+        <a class="path" href="#4-managing-python-versions"><span class="path-k">Install or pin Python</span><code>uv python pin 3.13</code></a>
+        <a class="path" href="#14-code-quality-ruff-uv-format-uv-check-and-uv-audit"><span class="path-k">Lint and format</span><code>uv run ruff check --fix</code></a>
+      </div>
+    </section>
+
+    <article class="doc" id="doc">
+      {{CONTENT}}
+    </article>
+
+    <footer class="footer">
+      <p>Tested with uv {{UV_VERSION}} and Ruff {{RUFF_VERSION}}, {{UPDATED}}. uv and Ruff are projects by <a href="https://astral.sh" target="_blank" rel="noopener">Astral</a>; this is an independent community guide.</p>
+      <p><a href="#top">Back to top ↑</a></p>
+    </footer>
+  </main>
+
+  <aside class="onpage" aria-label="On this page">
+    <div class="onpage-inner">
+      <p class="nav-label">On this page</p>
+      <ul id="onpageList"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="searchLabel">
+    <label class="search-field" for="searchInput">
+      <span class="sr-only" id="searchLabel">Search the guide</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Try “export”, “pin”, “publish”, “uv add --dev”…">
+      <button class="kbd kbd-btn" id="searchClose" type="button">Esc</button>
+    </label>
+    <ul class="search-results" id="searchResults" role="listbox" aria-label="Search results"></ul>
+    <p class="search-hint">↑ ↓ to move · Enter to open · Esc to close</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>

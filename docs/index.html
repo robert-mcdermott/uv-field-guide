@@ -1,0 +1,2464 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>uv Field Guide</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="A practical, team-oriented guide to Python development with uv and Ruff: Python versions, projects, dependencies, scripts, tools, pip interop, building and publishing.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:ital,wght@0,400;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;600&family=Schibsted+Grotesk:wght@600;700;800&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <div class="topbar-inner">
+    <button class="icon-btn nav-toggle" id="navToggle" type="button" aria-label="Open navigation" aria-controls="sidebar" aria-expanded="false">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+    </button>
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">uv</span>
+      <span class="brand-text">Field Guide</span>
+    </a>
+    <button class="search-trigger" id="searchOpen" type="button" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <span class="search-trigger-text">Search commands and topics</span>
+      <kbd class="kbd" id="searchKbd">/</kbd>
+    </button>
+    <div class="topbar-right">
+      <span class="chip chip-version" title="Versions this guide was tested against">uv 0.13.1 · ruff 0.17.0</span>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Toggle dark mode">
+        <svg class="i-sun" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+</header>
+
+<div class="layout" id="top">
+  <nav class="sidebar" id="sidebar" aria-label="Guide sections">
+    <div class="sidebar-inner">
+      <div class="nav-group"><p class="nav-label">Start here</p><ul><li class="nav-sec"><a href="#1-what-uv-is-and-what-it-replaces" data-target="1-what-uv-is-and-what-it-replaces"><span class="nav-num">01</span><span>What uv is and what it replaces</span></a></li><li class="nav-sec"><a href="#2-installing-updating-and-removing-uv" data-target="2-installing-updating-and-removing-uv"><span class="nav-num">02</span><span>Installing, updating and removing uv</span></a><ul class="nav-sub"><li><a href="#install" data-target="install">Install</a></li><li><a href="#update" data-target="update">Update</a></li><li><a href="#shell-completion" data-target="shell-completion">Shell completion</a></li><li><a href="#uninstall" data-target="uninstall">Uninstall</a></li><li><a href="#getting-help" data-target="getting-help">Getting help</a></li></ul></li><li class="nav-sec"><a href="#3-the-mental-model-five-ways-to-use-uv" data-target="3-the-mental-model-five-ways-to-use-uv"><span class="nav-num">03</span><span>The mental model: five ways to use uv</span></a></li></ul></div>
+<div class="nav-group"><p class="nav-label">Everyday workflow</p><ul><li class="nav-sec"><a href="#4-managing-python-versions" data-target="4-managing-python-versions"><span class="nav-num">04</span><span>Managing Python versions</span></a><ul class="nav-sub"><li><a href="#install-list-find" data-target="install-list-find">Install, list, find</a></li><li><a href="#upgrade-and-uninstall" data-target="upgrade-and-uninstall">Upgrade and uninstall</a></li><li><a href="#pinning" data-target="pinning">Pinning</a></li><li><a href="#request-formats" data-target="request-formats">Request formats</a></li><li><a href="#controlling-managed-vs-system-python" data-target="controlling-managed-vs-system-python">Controlling managed vs system Python</a></li><li><a href="#one-off-interpreters" data-target="one-off-interpreters">One-off interpreters</a></li></ul></li><li class="nav-sec"><a href="#5-creating-projects" data-target="5-creating-projects"><span class="nav-num">05</span><span>Creating projects</span></a><ul class="nav-sub"><li><a href="#the-project-types-at-a-glance" data-target="the-project-types-at-a-glance">The project types at a glance</a></li><li><a href="#a-real-example" data-target="a-real-example">A real example</a></li><li><a href="#useful-uv-init-options" data-target="useful-uv-init-options">Useful <code>uv init</code> options</a></li><li><a href="#anatomy-of-pyprojecttoml-in-a-uv-project" data-target="anatomy-of-pyprojecttoml-in-a-uv-project">Anatomy of <code>pyproject.toml</code> in a uv project</a></li></ul></li><li class="nav-sec"><a href="#6-managing-dependencies-with-uv-add-and-uv-remove" data-target="6-managing-dependencies-with-uv-add-and-uv-remove"><span class="nav-num">06</span><span>Managing dependencies with <code>uv add</code> and <code>uv remove</code></span></a><ul class="nav-sub"><li><a href="#version-constraints-and-bounds" data-target="version-constraints-and-bounds">Version constraints and bounds</a></li><li><a href="#dependency-kinds" data-target="dependency-kinds">Dependency kinds</a></li><li><a href="#platform-and-python-version-specific-dependencies-markers" data-target="platform-and-python-version-specific-dependencies-markers">Platform and Python-version specific dependencies (markers)</a></li><li><a href="#alternative-sources-git-paths-urls-indexes" data-target="alternative-sources-git-paths-urls-indexes">Alternative sources (git, paths, URLs, indexes)</a></li><li><a href="#importing-an-existing-requirementstxt" data-target="importing-an-existing-requirementstxt">Importing an existing requirements.txt</a></li><li><a href="#removing-and-changing" data-target="removing-and-changing">Removing and changing</a></li><li><a href="#self-dependencies" data-target="self-dependencies">Self-dependencies</a></li></ul></li><li class="nav-sec"><a href="#7-locking-syncing-running-and-inspecting" data-target="7-locking-syncing-running-and-inspecting"><span class="nav-num">07</span><span>Locking, syncing, running and inspecting</span></a><ul class="nav-sub"><li><a href="#how-it-fits-together" data-target="how-it-fits-together">How it fits together</a></li><li><a href="#uv-lock" data-target="uv-lock"><code>uv lock</code></a></li><li><a href="#uv-sync" data-target="uv-sync"><code>uv sync</code></a></li><li><a href="#uv-run" data-target="uv-run"><code>uv run</code></a></li><li><a href="#uv-tree" data-target="uv-tree"><code>uv tree</code></a></li><li><a href="#uv-version" data-target="uv-version"><code>uv version</code></a></li><li><a href="#upgrading-dependencies-safely" data-target="upgrading-dependencies-safely">Upgrading dependencies safely</a></li></ul></li><li class="nav-sec"><a href="#8-single-file-scripts-with-inline-dependencies" data-target="8-single-file-scripts-with-inline-dependencies"><span class="nav-num">08</span><span>Single-file scripts with inline dependencies</span></a></li><li class="nav-sec"><a href="#9-tools-uvx-and-uv-tool" data-target="9-tools-uvx-and-uv-tool"><span class="nav-num">09</span><span>Tools: <code>uvx</code> and <code>uv tool</code></span></a><ul class="nav-sub"><li><a href="#run-without-installing" data-target="run-without-installing">Run without installing</a></li><li><a href="#install-persistently" data-target="install-persistently">Install persistently</a></li><li><a href="#uvx-vs-uv-run-for-dev-tools" data-target="uvx-vs-uv-run-for-dev-tools"><code>uvx</code> vs <code>uv run</code> for dev tools</a></li></ul></li></ul></div>
+<div class="nav-group"><p class="nav-label">pip and interop</p><ul><li class="nav-sec"><a href="#10-the-pip-compatible-interface-uv-venv-and-uv-pip" data-target="10-the-pip-compatible-interface-uv-venv-and-uv-pip"><span class="nav-num">10</span><span>The pip-compatible interface: <code>uv venv</code> and <code>uv pip</code></span></a><ul class="nav-sub"><li><a href="#uv-venv" data-target="uv-venv"><code>uv venv</code></a></li><li><a href="#installing-and-inspecting-packages" data-target="installing-and-inspecting-packages">Installing and inspecting packages</a></li><li><a href="#which-environment-does-uv-pip-modify" data-target="which-environment-does-uv-pip-modify">Which environment does <code>uv pip</code> modify?</a></li><li><a href="#compiling-and-syncing-pip-tools-replacement" data-target="compiling-and-syncing-pip-tools-replacement">Compiling and syncing (pip-tools replacement)</a></li><li><a href="#key-differences-from-pip" data-target="key-differences-from-pip">Key differences from pip</a></li></ul></li><li class="nav-sec"><a href="#11-working-with-vanilla-pip-users-requirementstxt-in-both-directions" data-target="11-working-with-vanilla-pip-users-requirementstxt-in-both-directions"><span class="nav-num">11</span><span>Working with vanilla pip users: requirements.txt in both directions</span></a><ul class="nav-sub"><li><a href="#scenario-a-you-use-uv-a-colleague-or-server-uses-plain-pip" data-target="scenario-a-you-use-uv-a-colleague-or-server-uses-plain-pip">Scenario A: you use uv, a colleague or server uses plain pip</a></li><li><a href="#scenario-b-someone-hands-you-a-requirementstxt" data-target="scenario-b-someone-hands-you-a-requirementstxt">Scenario B: someone hands you a requirements.txt</a></li><li><a href="#scenario-c-you-need-pip-itself-inside-the-environment" data-target="scenario-c-you-need-pip-itself-inside-the-environment">Scenario C: you need pip itself inside the environment</a></li><li><a href="#quick-decision-table" data-target="quick-decision-table">Quick decision table</a></li></ul></li></ul></div>
+<div class="nav-group"><p class="nav-label">Shipping code</p><ul><li class="nav-sec"><a href="#12-building-and-publishing-packages-to-pypi" data-target="12-building-and-publishing-packages-to-pypi"><span class="nav-num">12</span><span>Building and publishing packages to PyPI</span></a><ul class="nav-sub"><li><a href="#prepare-the-project" data-target="prepare-the-project">Prepare the project</a></li><li><a href="#version-build-smoke-test" data-target="version-build-smoke-test">Version, build, smoke-test</a></li><li><a href="#publish-to-testpypi-first" data-target="publish-to-testpypi-first">Publish to TestPyPI first</a></li><li><a href="#publish-to-pypi" data-target="publish-to-pypi">Publish to PyPI</a></li><li><a href="#trusted-publishing-from-github-actions-no-secrets" data-target="trusted-publishing-from-github-actions-no-secrets">Trusted Publishing from GitHub Actions (no secrets)</a></li></ul></li><li class="nav-sec"><a href="#13-workspaces-monorepos" data-target="13-workspaces-monorepos"><span class="nav-num">13</span><span>Workspaces (monorepos)</span></a></li></ul></div>
+<div class="nav-group"><p class="nav-label">Quality and config</p><ul><li class="nav-sec"><a href="#14-code-quality-ruff-uv-format-uv-check-and-uv-audit" data-target="14-code-quality-ruff-uv-format-uv-check-and-uv-audit"><span class="nav-num">14</span><span>Code quality: Ruff, <code>uv format</code>, <code>uv check</code> and <code>uv audit</code></span></a><ul class="nav-sub"><li><a href="#is-ruff-built-into-uv" data-target="is-ruff-built-into-uv">Is Ruff built into uv?</a></li><li><a href="#ruff-in-2-minutes" data-target="ruff-in-2-minutes">Ruff in 2 minutes</a></li><li><a href="#a-sensible-team-configuration" data-target="a-sensible-team-configuration">A sensible team configuration</a></li><li><a href="#uv-format" data-target="uv-format"><code>uv format</code></a></li><li><a href="#uv-check-type-checking-with-ty-preview" data-target="uv-check-type-checking-with-ty-preview"><code>uv check</code>: type checking with ty (preview)</a></li><li><a href="#uv-audit-vulnerability-scanning-preview" data-target="uv-audit-vulnerability-scanning-preview"><code>uv audit</code>: vulnerability scanning (preview)</a></li><li><a href="#editor-integration" data-target="editor-integration">Editor integration</a></li></ul></li><li class="nav-sec"><a href="#15-configuration-and-environment-variables" data-target="15-configuration-and-environment-variables"><span class="nav-num">15</span><span>Configuration and environment variables</span></a><ul class="nav-sub"><li><a href="#where-uv-reads-settings-highest-precedence-first" data-target="where-uv-reads-settings-highest-precedence-first">Where uv reads settings (highest precedence first)</a></li><li><a href="#frequently-used-tooluv-settings" data-target="frequently-used-tooluv-settings">Frequently used <code>[tool.uv]</code> settings</a></li><li><a href="#env-files" data-target="env-files"><code>.env</code> files</a></li><li><a href="#environment-variables-worth-knowing" data-target="environment-variables-worth-knowing">Environment variables worth knowing</a></li></ul></li><li class="nav-sec"><a href="#16-package-indexes-and-authentication" data-target="16-package-indexes-and-authentication"><span class="nav-num">16</span><span>Package indexes and authentication</span></a><ul class="nav-sub"><li><a href="#defining-indexes" data-target="defining-indexes">Defining indexes</a></li><li><a href="#credentials" data-target="credentials">Credentials</a></li><li><a href="#corporate-networks--tls-inspection" data-target="corporate-networks--tls-inspection">Corporate networks / TLS inspection</a></li><li><a href="#pytorch" data-target="pytorch">PyTorch</a></li></ul></li><li class="nav-sec"><a href="#17-the-cache" data-target="17-the-cache"><span class="nav-num">17</span><span>The cache</span></a></li></ul></div>
+<div class="nav-group"><p class="nav-label">Team and reference</p><ul><li class="nav-sec"><a href="#18-cicd-docker-and-pre-commit" data-target="18-cicd-docker-and-pre-commit"><span class="nav-num">18</span><span>CI/CD, Docker and pre-commit</span></a><ul class="nav-sub"><li><a href="#github-actions" data-target="github-actions">GitHub Actions</a></li><li><a href="#docker" data-target="docker">Docker</a></li><li><a href="#pre-commit" data-target="pre-commit">pre-commit</a></li><li><a href="#jupyter" data-target="jupyter">Jupyter</a></li></ul></li><li class="nav-sec"><a href="#19-recommended-team-conventions" data-target="19-recommended-team-conventions"><span class="nav-num">19</span><span>Recommended team conventions</span></a></li><li class="nav-sec"><a href="#20-migration-cheat-sheet" data-target="20-migration-cheat-sheet"><span class="nav-num">20</span><span>Migration cheat sheet</span></a><ul class="nav-sub"><li><a href="#from-pip--venv" data-target="from-pip--venv">From pip + venv</a></li><li><a href="#from-pip-tools" data-target="from-pip-tools">From pip-tools</a></li><li><a href="#from-pipx" data-target="from-pipx">From pipx</a></li><li><a href="#from-pyenv" data-target="from-pyenv">From pyenv</a></li><li><a href="#from-poetry" data-target="from-poetry">From Poetry</a></li><li><a href="#from-conda" data-target="from-conda">From Conda</a></li></ul></li><li class="nav-sec"><a href="#21-gotchas-and-troubleshooting" data-target="21-gotchas-and-troubleshooting"><span class="nav-num">21</span><span>Gotchas and troubleshooting</span></a></li><li class="nav-sec"><a href="#22-complete-command-reference" data-target="22-complete-command-reference"><span class="nav-num">22</span><span>Complete command reference</span></a><ul class="nav-sub"><li><a href="#global-options-work-with-every-command" data-target="global-options-work-with-every-command">Global options (work with every command)</a></li><li><a href="#project-commands" data-target="project-commands">Project commands</a></li><li><a href="#workspace" data-target="workspace">Workspace</a></li><li><a href="#python" data-target="python">Python</a></li><li><a href="#tools" data-target="tools">Tools</a></li><li><a href="#pip-interface" data-target="pip-interface">pip interface</a></li><li><a href="#utility" data-target="utility">Utility</a></li></ul></li><li class="nav-sec"><a href="#23-what-changed-recently-010--013" data-target="23-what-changed-recently-010--013"><span class="nav-num">23</span><span>What changed recently (0.10 → 0.13)</span></a><ul class="nav-sub"><li><a href="#further-reading" data-target="further-reading">Further reading</a></li></ul></li></ul></div>
+      <div class="nav-group nav-extra">
+        <p class="nav-label">Downloads</p>
+        <ul>
+          <li><a href="uv-guide.md">Markdown version</a></li>
+          <li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">Official uv docs</a></li>
+          <li><a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Official Ruff docs</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <div class="scrim" id="scrim" hidden></div>
+
+  <main class="main" id="main">
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Team handbook · updated October 2026</p>
+        <h1>The uv Field Guide</h1>
+        <p class="lede">Everything a Python team needs to move onto <strong>uv</strong>: installing Python, starting projects, managing dependencies, running scripts and tools, staying compatible with plain <code>pip</code>, and publishing to PyPI. Includes a little <strong>Ruff</strong>. Every example was run on the versions in the header.</p>
+        <div class="hero-meta">
+          <span class="chip">Replaces pip · pip-tools · pipx · pyenv · virtualenv · twine</span>
+          <span class="chip">Universal lockfile</span>
+          <span class="chip">Standards-based pyproject.toml</span>
+        </div>
+      </div>
+      <figure class="terminal" aria-label="Quick start terminal session">
+        <div class="terminal-bar"><span></span><span></span><span></span><em>quick start</em></div>
+<pre class="terminal-body"><span class="t-c"># install uv (macOS / Linux)</span>
+<span class="t-p">$</span> curl -LsSf https://astral.sh/uv/install.sh | sh
+<span class="t-c"># create an app pinned to Python 3.13</span>
+<span class="t-p">$</span> uv init weather-cli -p 3.13 &amp;&amp; cd weather-cli
+<span class="t-p">$</span> uv add httpx rich
+<span class="t-p">$</span> uv run weather-cli Seattle
+<span class="t-o">       Weather in Seattle, US
+┌─────────────┬────────────────────┐
+│ Metric      │ Value              │
+├─────────────┼────────────────────┤
+│ Temperature │ 11.6 °C  (52.9 °F) │
+│ Wind        │ 6.5 km/h           │
+└─────────────┴────────────────────┘</span></pre>
+      </figure>
+    </div>
+
+    <section class="paths" aria-labelledby="pathsTitle">
+      <h2 class="paths-title" id="pathsTitle">Jump to a task</h2>
+      <div class="paths-grid">
+        <a class="path" href="#5-creating-projects"><span class="path-k">Start a new app or library</span><code>uv init my-app -p 3.13</code></a>
+        <a class="path" href="#6-managing-dependencies-with-uv-add-and-uv-remove"><span class="path-k">Add a dependency</span><code>uv add httpx</code></a>
+        <a class="path" href="#8-single-file-scripts-with-inline-dependencies"><span class="path-k">Run a one-file script</span><code>uv run --with rich demo.py</code></a>
+        <a class="path" href="#9-tools-uvx-and-uv-tool"><span class="path-k">Use a CLI tool</span><code>uvx ruff check</code></a>
+        <a class="path" href="#11-working-with-vanilla-pip-users-requirementstxt-in-both-directions"><span class="path-k">Share with pip users</span><code>uv export -o requirements.txt</code></a>
+        <a class="path" href="#12-building-and-publishing-packages-to-pypi"><span class="path-k">Publish to PyPI</span><code>uv build &amp;&amp; uv publish</code></a>
+        <a class="path" href="#4-managing-python-versions"><span class="path-k">Install or pin Python</span><code>uv python pin 3.13</code></a>
+        <a class="path" href="#14-code-quality-ruff-uv-format-uv-check-and-uv-audit"><span class="path-k">Lint and format</span><code>uv run ruff check --fix</code></a>
+      </div>
+    </section>
+
+    <article class="doc" id="doc">
+      <section class="doc-section" data-section="1-what-uv-is-and-what-it-replaces">
+<h2 id="1-what-uv-is-and-what-it-replaces">1. What uv is and what it replaces<a class="anchor" href="#1-what-uv-is-and-what-it-replaces" aria-label="Link to this section">#</a></h2>
+<p>uv is a single, fast binary (written in Rust by <a href="https://astral.sh" target="_blank" rel="noopener">Astral</a>, the team behind Ruff) that manages <strong>Python installations, virtual environments, dependencies, lockfiles, scripts, command-line tools, builds and publishing</strong>. It does not need Python to be installed first; it will download Python for you.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>You used to reach for…</th>
+<th>With uv you use…</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pyenv</code>, python.org installers</td>
+<td><code>uv python install</code>, <code>uv python pin</code></td>
+</tr>
+<tr>
+<td><code>python -m venv</code>, <code>virtualenv</code></td>
+<td><code>uv venv</code> (or nothing: projects create <code>.venv</code> automatically)</td>
+</tr>
+<tr>
+<td><code>pip install</code>, <code>pip freeze</code>, <code>pipdeptree</code></td>
+<td><code>uv add</code>, <code>uv pip install</code>, <code>uv pip freeze</code>, <code>uv tree</code></td>
+</tr>
+<tr>
+<td><code>pip-tools</code> (<code>pip-compile</code>, <code>pip-sync</code>)</td>
+<td><code>uv lock</code>, <code>uv sync</code>, <code>uv pip compile</code>, <code>uv pip sync</code></td>
+</tr>
+<tr>
+<td><code>pipx</code></td>
+<td><code>uvx</code>, <code>uv tool install</code></td>
+</tr>
+<tr>
+<td>Poetry / PDM / Pipenv</td>
+<td><code>uv init</code>, <code>uv add</code>, <code>uv lock</code>, <code>uv sync</code>, <code>uv run</code></td>
+</tr>
+<tr>
+<td><code>build</code>, <code>twine</code></td>
+<td><code>uv build</code>, <code>uv publish</code></td>
+</tr>
+<tr>
+<td><code>black</code> / formatter wiring</td>
+<td><code>uv format</code> (runs Ruff)</td>
+</tr>
+</tbody>
+</table></div>
+<p>Why teams adopt it:</p>
+<ul>
+<li><strong>Speed.</strong> Resolution and installs are typically 10–100× faster than pip thanks to a global cache, parallel downloads and hard-linking/copy-on-write installs.</li>
+<li><strong>One universal lockfile.</strong> <code>uv.lock</code> captures exact versions for <em>every</em> platform and Python version at once, so macOS, Windows and Linux developers (and CI) all get the same dependency set.</li>
+<li><strong>Standards-based.</strong> Projects use the standard <code>pyproject.toml</code> (PEP 621), dependency groups (PEP 735), inline script metadata (PEP 723), and can export <code>pylock.toml</code> (PEP 751) and <code>requirements.txt</code>. Nothing locks you in.</li>
+<li><strong>No more "activate the venv" dance.</strong> <code>uv run &lt;cmd&gt;</code> always runs inside an up-to-date project environment.</li>
+</ul>
+</section>
+<section class="doc-section" data-section="2-installing-updating-and-removing-uv">
+<h2 id="2-installing-updating-and-removing-uv">2. Installing, updating and removing uv<a class="anchor" href="#2-installing-updating-and-removing-uv" aria-label="Link to this section">#</a></h2>
+<h3 id="install">Install<a class="anchor" href="#install" aria-label="Link to this section">#</a></h3>
+<p><strong>macOS and Linux (recommended standalone installer):</strong></p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">curl -LsSf https://astral.sh/uv/install.sh | sh
+# no curl?
+wget -qO- https://astral.sh/uv/install.sh | sh
+# pin a specific version
+curl -LsSf https://astral.sh/uv/0.13.1/install.sh | sh
+</code></pre></div>
+<p><strong>Windows (PowerShell):</strong></p>
+<div class="code" data-lang="powershell"><div class="code-bar"><span class="code-lang">powershell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-powershell">powershell -ExecutionPolicy ByPass -c &quot;irm https://astral.sh/uv/install.ps1 | iex&quot;
+</code></pre></div>
+<p><strong>Package managers:</strong></p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">brew install uv                    # Homebrew (macOS/Linux)
+winget install --id=astral-sh.uv -e  # WinGet
+scoop install main/uv              # Scoop
+sudo port install uv               # MacPorts
+pipx install uv                    # from PyPI, isolated
+pip install uv                     # from PyPI, into the current environment
+cargo install --locked uv          # build from source
+</code></pre></div>
+<p>The standalone installer puts <code>uv</code> and <code>uvx</code> in <code>~/.local/bin</code> (Windows: <code>%USERPROFILE%\.local\bin</code>) and adds it to your <code>PATH</code>. Set <code>UV_NO_MODIFY_PATH=1</code> if you don't want it to edit your shell profile.</p>
+<p>Verify:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv --version
+uv 0.13.1 (aarch64-apple-darwin)
+</code></pre></div>
+<h3 id="update">Update<a class="anchor" href="#update" aria-label="Link to this section">#</a></h3>
+<p>If you used the standalone installer, uv updates itself:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv self update
+info: Checking for updates...
+success: Upgraded uv from v0.12.10 to v0.13.1! https://github.com/astral-sh/uv/releases/tag/0.13.1
+
+$ uv self update --dry-run     # check without installing
+$ uv self update 0.13.0        # move to a specific version (up or down)
+$ uv self version --short      # just the version number
+</code></pre></div>
+<p>If you installed with Homebrew, pip, WinGet, etc., <code>uv self update</code> is disabled; use that tool's upgrade command instead (<code>brew upgrade uv</code>, <code>pip install -U uv</code>, …).</p>
+<aside class="callout callout-tip">
+<p><strong>Tip:</strong> if <code>uv self update</code> hits GitHub rate limits in CI, pass <code>--token</code> or set <code>UV_GITHUB_TOKEN</code>.</p>
+</aside>
+<h3 id="shell-completion">Shell completion<a class="anchor" href="#shell-completion" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash"># bash
+echo 'eval &quot;$(uv generate-shell-completion bash)&quot;' &gt;&gt; ~/.bashrc
+echo 'eval &quot;$(uvx --generate-shell-completion bash)&quot;' &gt;&gt; ~/.bashrc
+# zsh
+echo 'eval &quot;$(uv generate-shell-completion zsh)&quot;' &gt;&gt; ~/.zshrc
+echo 'eval &quot;$(uvx --generate-shell-completion zsh)&quot;' &gt;&gt; ~/.zshrc
+# fish
+echo 'uv generate-shell-completion fish | source' &gt; ~/.config/fish/completions/uv.fish
+</code></pre></div>
+<p>PowerShell: <code>Add-Content -Path $PROFILE -Value '(&amp; uv generate-shell-completion powershell) | Out-String | Invoke-Expression'</code></p>
+<h3 id="uninstall">Uninstall<a class="anchor" href="#uninstall" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv cache clean
+rm -r &quot;$(uv python dir)&quot;   # uv-managed Pythons
+rm -r &quot;$(uv tool dir)&quot;     # installed tools
+rm ~/.local/bin/uv ~/.local/bin/uvx
+</code></pre></div>
+<h3 id="getting-help">Getting help<a class="anchor" href="#getting-help" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv --help            # concise help
+uv help              # long-form help
+uv help add          # long-form help for a subcommand (opens a pager)
+uv add --help        # concise help for a subcommand
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="3-the-mental-model-five-ways-to-use-uv">
+<h2 id="3-the-mental-model-five-ways-to-use-uv">3. The mental model: five ways to use uv<a class="anchor" href="#3-the-mental-model-five-ways-to-use-uv" aria-label="Link to this section">#</a></h2>
+<p>uv has several interfaces that can be used independently or together. Knowing which one you're in removes most confusion.</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Interface</th>
+<th>Commands</th>
+<th>Use it when…</th>
+<th>State lives in</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Python versions</strong></td>
+<td><code>uv python …</code></td>
+<td>You need a particular interpreter</td>
+<td><code>~/.local/share/uv/python</code></td>
+</tr>
+<tr>
+<td><strong>Projects</strong></td>
+<td><code>uv init/add/remove/lock/sync/run/tree/version/build/publish/export</code></td>
+<td>You're building an app or library that others will run or install</td>
+<td><code>pyproject.toml</code>, <code>uv.lock</code>, <code>.venv/</code></td>
+</tr>
+<tr>
+<td><strong>Scripts</strong></td>
+<td><code>uv run script.py</code>, <code>uv add --script</code>, <code>uv init --script</code></td>
+<td>A single <code>.py</code> file needs a few dependencies</td>
+<td>Inline <code># /// script</code> block</td>
+</tr>
+<tr>
+<td><strong>Tools</strong></td>
+<td><code>uvx</code>, <code>uv tool …</code></td>
+<td>You want to run a CLI (ruff, httpie, black, cookiecutter)</td>
+<td><code>~/.local/share/uv/tools</code> or cache</td>
+</tr>
+<tr>
+<td><strong>pip interface</strong></td>
+<td><code>uv venv</code>, <code>uv pip …</code></td>
+<td>Legacy workflows, requirements.txt, fine-grained manual control</td>
+<td>Whatever venv you point it at</td>
+</tr>
+</tbody>
+</table></div>
+<p>The files that matter in a uv project:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>Purpose</th>
+<th>Commit it?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pyproject.toml</code></td>
+<td>Your <strong>intent</strong>: metadata, dependency ranges, tool config</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>uv.lock</code></td>
+<td>The <strong>exact</strong> resolved versions for all platforms</td>
+<td><strong>Yes</strong> (for apps and libraries)</td>
+</tr>
+<tr>
+<td><code>.python-version</code></td>
+<td>Default Python version for the project</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><code>.venv/</code></td>
+<td>The project's virtual environment (disposable)</td>
+<td><strong>No</strong> (uv adds a <code>.gitignore</code> inside it)</td>
+</tr>
+<tr>
+<td><code>requirements.txt</code></td>
+<td>Optional export for pip users / legacy tooling</td>
+<td>Only if someone needs it</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>The golden rule:</strong> in a project, change dependencies with <code>uv add</code> / <code>uv remove</code> (or by editing <code>pyproject.toml</code>), and run things with <code>uv run</code>. Avoid <code>uv pip install</code> into a project's <code>.venv</code>; the next <code>uv sync</code> will remove anything that isn't in the lockfile.</p>
+</section>
+<section class="doc-section" data-section="4-managing-python-versions">
+<h2 id="4-managing-python-versions">4. Managing Python versions<a class="anchor" href="#4-managing-python-versions" aria-label="Link to this section">#</a></h2>
+<p>uv distinguishes <strong>managed</strong> Pythons (ones uv downloaded, from the <code>python-build-standalone</code> project) from <strong>system</strong> Pythons (Homebrew, pyenv, OS, python.org). It will happily use either. If nothing suitable is found, it downloads one automatically.</p>
+<aside class="callout callout-warn">
+<p><strong>Default Python is now 3.15.</strong> As of uv 0.13.0, when no version is requested or pinned, uv downloads Python 3.15. Existing installed Pythons that satisfy a request are still preferred.</p>
+</aside>
+<h3 id="install-list-find">Install, list, find<a class="anchor" href="#install-list-find" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv python install                 # latest stable (3.15 today), or whatever .python-version asks for
+$ uv python install 3.12            # latest 3.12.x
+$ uv python install 3.11 3.12 3.13  # several at once
+$ uv python install 3.12.3          # an exact patch
+$ uv python install '&gt;=3.10,&lt;3.12'  # a range
+$ uv python install pypy@3.11       # alternative implementations: pypy, graalpy, pyodide
+$ uv python install 3.14t           # free-threaded build
+$ uv python install 3.13 --default  # also install `python` and `python3` shims (experimental)
+
+$ uv python list                    # installed + available downloads for this platform
+$ uv python list --only-installed
+$ uv python list 3.13               # filter
+$ uv python list --all-versions     # include old patch releases
+$ uv python list --output-format json
+
+$ uv python find 3.13               # path of the interpreter uv would use
+/Users/you/.local/share/uv/python/cpython-3.13-macos-aarch64-none/bin/python3.13
+$ uv python find --system           # ignore virtual environments
+</code></pre></div>
+<p>Installing puts a versioned executable (<code>python3.13</code>) in <code>~/.local/bin</code>. If that directory isn't on your <code>PATH</code>, run <code>uv python update-shell</code>.</p>
+<h3 id="upgrade-and-uninstall">Upgrade and uninstall<a class="anchor" href="#upgrade-and-uninstall" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv python upgrade 3.13     # move to the newest 3.13.x patch
+$ uv python upgrade          # upgrade every managed version
+$ uv python install --reinstall   # rebuild installs (picks up distribution fixes)
+$ uv python uninstall 3.11
+$ uv python dir              # where managed Pythons live
+</code></pre></div>
+<p>Virtual environments that use a managed minor version (for example 3.13) are <strong>automatically moved to the new patch</strong> when you upgrade, because uv points them at a <code>cpython-3.13-…</code> directory link. Environments created with an explicit patch (<code>-p 3.13.2</code>) are left alone.</p>
+<h3 id="pinning">Pinning<a class="anchor" href="#pinning" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv python pin 3.13             # writes .python-version in the current directory
+Pinned `.python-version` to `3.13`
+$ uv python pin                  # show the current pin
+$ uv python pin --global 3.13    # user-wide default (~/.config/uv/.python-version)
+$ uv python pin --global --rm    # remove the global pin
+$ uv python pin --resolved 3.13  # write the full interpreter path instead of the request
+</code></pre></div>
+<p>How uv picks a Python for a project (highest priority first):</p>
+<ol>
+<li><code>--python</code> / <code>-p</code> flag or <code>UV_PYTHON</code></li>
+<li><code>.python-version</code> in the current directory or a parent (within the project)</li>
+<li>The global pin in the user config directory</li>
+<li>The first installed interpreter compatible with <code>requires-python</code> (managed first by default)</li>
+<li>Download one, if downloads are allowed</li>
+</ol>
+<h3 id="request-formats">Request formats<a class="anchor" href="#request-formats" aria-label="Link to this section">#</a></h3>
+<p>Anything that takes <code>--python</code> accepts: <code>3</code>, <code>3.12</code>, <code>3.12.3</code>, <code>&gt;=3.12,&lt;3.13</code>, <code>3.13t</code> (free-threaded), <code>3.14+gil</code>, <code>cpython@3.12</code>, <code>cp312</code>, <code>pypy@3.10</code>, <code>cpython-3.12.3-macos-aarch64-none</code>, a path such as <code>/opt/homebrew/bin/python3</code>, or an executable name.</p>
+<h3 id="controlling-managed-vs-system-python">Controlling managed vs system Python<a class="anchor" href="#controlling-managed-vs-system-python" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Want</th>
+<th>Flag</th>
+<th>Setting (<code>uv.toml</code> / <code>[tool.uv]</code>)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Only uv-managed Pythons</td>
+<td><code>--managed-python</code></td>
+<td><code>python-preference = "only-managed"</code></td>
+</tr>
+<tr>
+<td>Only system Pythons</td>
+<td><code>--no-managed-python</code></td>
+<td><code>python-preference = "only-system"</code></td>
+</tr>
+<tr>
+<td>Prefer system, fall back to managed</td>
+<td>—</td>
+<td><code>python-preference = "system"</code></td>
+</tr>
+<tr>
+<td>Never auto-download</td>
+<td><code>--no-python-downloads</code></td>
+<td><code>python-downloads = "manual"</code> (or <code>"never"</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="one-off-interpreters">One-off interpreters<a class="anchor" href="#one-off-interpreters" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uvx python@3.14 -c &quot;import sys; print(sys.version)&quot;
+3.14.8 (main, Oct 14 2026, 01:04:34) [Clang 23.1.3 ]
+$ uv run --python 3.12 --no-project python -c &quot;import platform; print(platform.python_version())&quot;
+3.12.15
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="5-creating-projects">
+<h2 id="5-creating-projects">5. Creating projects<a class="anchor" href="#5-creating-projects" aria-label="Link to this section">#</a></h2>
+<p><code>uv init</code> creates a project. Since uv 0.12, <strong>every <code>uv init</code> project is a packaged project by default</strong>: it has a <code>[build-system]</code> using uv's own <code>uv_build</code> backend, a <code>src/</code> layout, and (for apps) a console-script entry point. This is the best-practice layout; it means your code is importable from tests and installable as a command.</p>
+<h3 id="the-project-types-at-a-glance">The project types at a glance<a class="anchor" href="#the-project-types-at-a-glance" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>What you get</th>
+<th>Build system?</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv init my-app</code> (same as <code>--app</code>)</td>
+<td><code>src/my_app/__init__.py</code> with <code>main()</code>, <code>[project.scripts] my-app = "my_app:main"</code></td>
+<td>Yes (<code>uv_build</code>)</td>
+<td>CLIs, services, most new work</td>
+</tr>
+<tr>
+<td><code>uv init --lib my-lib</code></td>
+<td><code>src/my_lib/__init__.py</code> + <code>py.typed</code></td>
+<td>Yes</td>
+<td>Libraries you'll publish or share</td>
+</tr>
+<tr>
+<td><code>uv init --no-package my-app</code></td>
+<td>Flat <code>main.py</code>, no build system; the project itself isn't installed</td>
+<td>No</td>
+<td>Notebooks, glue scripts, simple apps</td>
+</tr>
+<tr>
+<td><code>uv init --bare my-thing</code></td>
+<td>Only <code>pyproject.toml</code> (no README, no <code>.python-version</code>, no git)</td>
+<td>No</td>
+<td>Adding uv to an existing repo</td>
+</tr>
+<tr>
+<td><code>uv init --script tool.py</code></td>
+<td>A single file with an inline <code># /// script</code> block</td>
+<td>—</td>
+<td>One-file utilities</td>
+</tr>
+<tr>
+<td><code>uv init --build-backend maturin my-ext</code></td>
+<td>Rust extension module scaffold (<code>Cargo.toml</code>, <code>lib.rs</code>)</td>
+<td>Yes</td>
+<td>Rust or C/C++ extensions (<code>scikit-build-core</code> for C/C++)</td>
+</tr>
+</tbody>
+</table></div>
+<aside class="callout callout-warn">
+<p><strong>Heads up if you learned uv before 0.12:</strong> <code>uv init</code> used to create a flat <code>main.py</code> application with no build system. That layout now requires <code>--no-package</code>.</p>
+</aside>
+<h3 id="a-real-example">A real example<a class="anchor" href="#a-real-example" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv init weather-cli --python 3.13
+Initialized project `weather-cli` at `/Users/you/dev/weather-cli`
+
+$ cd weather-cli &amp;&amp; find . -not -path &quot;./.git*&quot; | sort
+.
+./.python-version
+./README.md
+./pyproject.toml
+./src
+./src/weather_cli
+./src/weather_cli/__init__.py
+
+$ cat pyproject.toml
+[project]
+name = &quot;weather-cli&quot;
+version = &quot;0.1.0&quot;
+description = &quot;Add your description here&quot;
+readme = &quot;README.md&quot;
+authors = [
+    { name = &quot;Robert McDermott&quot;, email = &quot;robert@example.com&quot; }
+]
+requires-python = &quot;&gt;=3.13&quot;
+dependencies = []
+
+[project.scripts]
+weather-cli = &quot;weather_cli:main&quot;
+
+[build-system]
+requires = [&quot;uv_build&gt;=0.13.1,&lt;0.14.0&quot;]
+build-backend = &quot;uv_build&quot;
+
+$ uv run weather-cli
+Using CPython 3.13.16
+Creating virtual environment at: .venv
+   Building weather-cli @ file:///Users/you/dev/weather-cli
+      Built weather-cli @ file:///Users/you/dev/weather-cli
+Installed 1 package in 1ms
+Hello from weather-cli!
+</code></pre></div>
+<p>The first <code>uv run</code> created <code>.venv</code>, wrote <code>uv.lock</code>, built the project and installed it in <strong>editable</strong> mode, so changes to <code>src/</code> are picked up immediately without reinstalling.</p>
+<h3 id="useful-uv-init-options">Useful <code>uv init</code> options<a class="anchor" href="#useful-uv-init-options" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv init my-app --python 3.12                  # set requires-python and .python-version
+uv init my-app --description &quot;Robert's cool app&quot;
+uv init my-app --author-from git              # auto | git | none
+uv init my-app --vcs none                     # skip `git init`
+uv init my-app --no-readme --no-pin-python
+uv init my-app --name custom-name             # project name differs from directory
+uv init --lib my-lib --build-backend hatch    # uv | hatch | flit | pdm | poetry | setuptools | maturin | scikit
+uv init .                                     # initialize the current directory
+uv init packages/core --no-workspace          # don't auto-join a parent workspace
+</code></pre></div>
+<p>Running <code>uv init</code> <strong>inside</strong> an existing project adds the new project as a <a href="#13-workspaces-monorepos">workspace member</a> automatically. Use <code>--no-workspace</code> to prevent that.</p>
+<h3 id="anatomy-of-pyprojecttoml-in-a-uv-project">Anatomy of <code>pyproject.toml</code> in a uv project<a class="anchor" href="#anatomy-of-pyprojecttoml-in-a-uv-project" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[project]                       # standard PEP 621 metadata: other tools read this
+name = &quot;weather-cli&quot;
+version = &quot;0.2.0&quot;
+requires-python = &quot;&gt;=3.13&quot;
+dependencies = [                # runtime dependencies (published with your package)
+    &quot;httpx&gt;=0.28.1&quot;,
+    &quot;rich&gt;=15.0.0&quot;,
+]
+
+[project.optional-dependencies] # &quot;extras&quot;: pip install weather-cli[plot]
+plot = [&quot;matplotlib&gt;=3.10&quot;]
+
+[project.scripts]               # console commands created on install
+weather-cli = &quot;weather_cli:main&quot;
+
+[dependency-groups]             # PEP 735: local-only groups (never published)
+dev = [&quot;pytest&gt;=9.1.1&quot;, &quot;ruff&gt;=0.17.0&quot;]
+docs = [&quot;mkdocs-material&quot;]
+
+[build-system]
+requires = [&quot;uv_build&gt;=0.13.1,&lt;0.14.0&quot;]
+build-backend = &quot;uv_build&quot;
+
+[tool.uv]                       # uv-specific settings
+default-groups = [&quot;dev&quot;]
+
+[tool.uv.sources]               # where to get a dependency during development
+# mylib = { path = &quot;../mylib&quot;, editable = true }
+
+[tool.ruff]                     # Ruff config can live here too
+line-length = 100
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="6-managing-dependencies-with-uv-add-and-uv-remove">
+<h2 id="6-managing-dependencies-with-uv-add-and-uv-remove">6. Managing dependencies with <code>uv add</code> and <code>uv remove</code><a class="anchor" href="#6-managing-dependencies-with-uv-add-and-uv-remove" aria-label="Link to this section">#</a></h2>
+<p><code>uv add</code> does three things in one step: edits <code>pyproject.toml</code>, re-resolves <code>uv.lock</code>, and syncs <code>.venv</code>.</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv add httpx rich
+Resolved 12 packages in 231ms
+Installed 12 packages in 11ms
+ + anyio==4.15.1
+ + certifi==2026.7.22
+ + h11==0.16.0
+ + httpcore==1.0.9
+ + httpx==0.28.1
+ + idna==3.20
+ + markdown-it-py==4.2.0
+ + mdurl==0.1.2
+ + pygments==2.21.0
+ + rich==15.0.0
+ + typing-extensions==4.16.0
+ ~ weather-cli==0.1.0 (from file:///Users/you/dev/weather-cli)
+</code></pre></div>
+<p>uv records a lower bound of the version it picked (<code>"httpx&gt;=0.28.1"</code>). The exact version lives in <code>uv.lock</code>.</p>
+<h3 id="version-constraints-and-bounds">Version constraints and bounds<a class="anchor" href="#version-constraints-and-bounds" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv add &quot;requests==2.32.3&quot;          # exact
+uv add &quot;requests&gt;=2.31,&lt;3&quot;         # range
+uv add &quot;django~=5.2&quot;               # compatible release (&gt;=5.2,&lt;6)
+uv add requests --bounds major     # writes requests&gt;=2.34.2,&lt;3.0.0
+uv add requests --bounds minor     # &gt;=2.34.2,&lt;2.35.0
+uv add requests --bounds exact     # ==2.34.2
+uv add &quot;fastapi[standard]&quot;         # with extras
+uv add fastapi --extra standard    # same thing
+</code></pre></div>
+<p>Set a team-wide default with <code>add-bounds = "major"</code> under <code>[tool.uv]</code>.</p>
+<h3 id="dependency-kinds">Dependency kinds<a class="anchor" href="#dependency-kinds" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Command</th>
+<th>Lands in</th>
+<th>Published?</th>
+<th>Installed by default?</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Runtime</td>
+<td><code>uv add httpx</code></td>
+<td><code>[project] dependencies</code></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Optional ("extra")</td>
+<td><code>uv add --optional plot matplotlib</code></td>
+<td><code>[project.optional-dependencies] plot</code></td>
+<td>Yes</td>
+<td>No: <code>--extra plot</code> / <code>--all-extras</code></td>
+</tr>
+<tr>
+<td>Development</td>
+<td><code>uv add --dev pytest</code></td>
+<td><code>[dependency-groups] dev</code></td>
+<td>No</td>
+<td><strong>Yes</strong> (<code>dev</code> is a default group)</td>
+</tr>
+<tr>
+<td>Other group</td>
+<td><code>uv add --group lint ruff</code></td>
+<td><code>[dependency-groups] lint</code></td>
+<td>No</td>
+<td>No: <code>--group lint</code> / <code>--all-groups</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>Groups can include each other:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[dependency-groups]
+test = [&quot;pytest&quot;, &quot;pytest-cov&quot;]
+lint = [&quot;ruff&quot;]
+dev  = [{ include-group = &quot;test&quot; }, { include-group = &quot;lint&quot; }]
+</code></pre></div>
+<p>Change which groups are installed by default:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv]
+default-groups = [&quot;dev&quot;, &quot;docs&quot;]   # or &quot;all&quot;
+</code></pre></div>
+<h3 id="platform-and-python-version-specific-dependencies-markers">Platform and Python-version specific dependencies (markers)<a class="anchor" href="#platform-and-python-version-specific-dependencies-markers" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv add &quot;numpy; python_version &gt;= '3.12'&quot; &quot;colorama; sys_platform == 'win32'&quot;
+$ grep -A3 dependencies pyproject.toml
+dependencies = [
+    &quot;colorama&gt;=0.4.6 ; sys_platform == 'win32'&quot;,
+    &quot;numpy&gt;=2.5.4 ; python_full_version &gt;= '3.12'&quot;,
+]
+</code></pre></div>
+<p>Because the lockfile is universal, the Windows-only package is recorded once and installed only on Windows.</p>
+<h3 id="alternative-sources-git-paths-urls-indexes">Alternative sources (git, paths, URLs, indexes)<a class="anchor" href="#alternative-sources-git-paths-urls-indexes" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv add git+https://github.com/psf/requests --tag v2.32.3
+uv add git+https://github.com/encode/httpx --branch main
+uv add git+https://github.com/encode/httpx --rev 326b9431c761e1ef1e00b9f760d1f654c8db48c6
+uv add &quot;git+https://github.com/langchain-ai/langchain#subdirectory=libs/langchain&quot;
+uv add git+ssh://git@github.com/org/private-repo
+uv add ../my-shared-lib --editable              # local project, editable
+uv add ./wheels/foo-1.0-py3-none-any.whl        # local wheel
+uv add &quot;https://example.com/pkg-1.0.tar.gz&quot;     # remote archive
+uv add torch --index pytorch=https://download.pytorch.org/whl/cpu
+</code></pre></div>
+<p>The standard <code>dependencies</code> list keeps just the name; the location goes in <code>[tool.uv.sources]</code>:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv.sources]
+requests = { git = &quot;https://github.com/psf/requests&quot;, tag = &quot;v2.32.3&quot; }
+my-shared-lib = { path = &quot;../my-shared-lib&quot;, editable = true }
+</code></pre></div>
+<aside class="callout callout-note">
+<p><code>tool.uv.sources</code> is uv-only. Other tools, and people installing your published package, see only the plain <code>dependencies</code>. Before publishing, check that the package builds without sources: <code>uv build --no-sources</code>.</p>
+</aside>
+<h3 id="importing-an-existing-requirementstxt">Importing an existing requirements.txt<a class="anchor" href="#importing-an-existing-requirementstxt" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv add -r requirements.txt                       # take the ranges from the file
+uv add -r requirements.in -c requirements.txt    # keep the versions you already had pinned
+uv add --dev -r requirements-dev.txt
+</code></pre></div>
+<h3 id="removing-and-changing">Removing and changing<a class="anchor" href="#removing-and-changing" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv remove httpx
+uv remove --dev pytest
+uv remove --group lint ruff
+uv remove --optional plot matplotlib
+uv add &quot;httpx&gt;=0.27&quot; --upgrade-package httpx     # change the constraint and move the lock forward
+</code></pre></div>
+<h3 id="self-dependencies">Self-dependencies<a class="anchor" href="#self-dependencies" aria-label="Link to this section">#</a></h3>
+<p>You can't add your own project as a runtime dependency (<code>uv add my-app</code> inside <code>my-app</code> errors with "self-dependencies are not permitted"). You can add it to a group or extra, which is useful for things like <code>my-app[all]</code>:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[project.optional-dependencies]
+all = [&quot;my-app[plot,network]&quot;]
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="7-locking-syncing-running-and-inspecting">
+<h2 id="7-locking-syncing-running-and-inspecting">7. Locking, syncing, running and inspecting<a class="anchor" href="#7-locking-syncing-running-and-inspecting" aria-label="Link to this section">#</a></h2>
+<h3 id="how-it-fits-together">How it fits together<a class="anchor" href="#how-it-fits-together" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="text"><div class="code-bar"><span class="code-lang">text</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-plaintext">pyproject.toml ──(uv lock)──▶ uv.lock ──(uv sync)──▶ .venv ──(uv run)──▶ your command
+   (intent)                  (exact pins)            (installed)
+</code></pre></div>
+<p><code>uv run</code>, <code>uv sync</code>, <code>uv add</code> and friends <strong>lock and sync automatically</strong>, so in day-to-day work you rarely type <code>uv lock</code> or <code>uv sync</code> yourself.</p>
+<h3 id="uv-lock"><code>uv lock</code><a class="anchor" href="#uv-lock" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv lock                         # create/refresh uv.lock (only changes what must change)
+uv lock --check                 # exit non-zero if uv.lock is stale (great in CI)
+uv lock --upgrade               # move every package to the newest allowed version
+uv lock --upgrade-package rich  # upgrade just one package
+uv lock --upgrade-package &quot;rich==14.0.0&quot;
+uv lock --dry-run               # show what would change
+</code></pre></div>
+<p>The lockfile never goes stale because a new version was released. You choose when to upgrade.</p>
+<h3 id="uv-sync"><code>uv sync</code><a class="anchor" href="#uv-sync" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv sync                       # install exactly what uv.lock says (+ default groups)
+uv sync --locked              # fail if uv.lock needs updating (CI)
+uv sync --frozen              # use uv.lock as-is, don't even check it
+uv sync --no-dev              # production install
+uv sync --group docs          # add a non-default group
+uv sync --all-groups --all-extras
+uv sync --only-group lint     # just that group, not the project
+uv sync --extra plot
+uv sync --inexact             # don't remove packages that aren't in the lock
+uv sync --no-install-project  # deps only (Docker layer caching)
+uv sync --no-editable         # install the project as a regular (non-editable) package
+uv sync --check               # is the environment in sync? (non-zero if not)
+uv sync --dry-run
+</code></pre></div>
+<aside class="callout callout-note">
+<p><strong>Exact by default.</strong> <code>uv sync</code> removes anything not selected. If you ran <code>uv add --group lint ruff</code> (which installs ruff) and then a plain <code>uv sync</code>, ruff gets uninstalled because <code>lint</code> isn't a default group. That's intended. Add the group to <code>default-groups</code> if everyone needs it.</p>
+</aside>
+<h3 id="uv-run"><code>uv run</code><a class="anchor" href="#uv-run" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv run weather-cli Seattle            # a project console script
+uv run python                         # REPL inside the project env
+uv run pytest -q                      # any command available in the env
+uv run -m http.server 8000            # run a module
+uv run script.py                      # a file (inline-metadata scripts get their own env)
+uv run -- flask run -p 3000           # `--` separates uv flags from the command's flags
+uv run --with ipython ipython         # add a temporary extra package for this run
+uv run --with &quot;httpx==0.27.0&quot; python -c &quot;import httpx; print(httpx.__version__)&quot;
+uv run --env-file .env python app.py  # load environment variables
+uv run --python 3.12 pytest           # different interpreter for this run
+uv run --package api api              # a specific workspace member
+uv run --no-project script.py         # ignore the surrounding project
+uv run --isolated pytest              # temporary env, don't touch .venv
+uv run --no-sync pytest               # skip the lock/sync check (fast inner loop)
+uv run --locked pytest                # fail if uv.lock is stale
+</code></pre></div>
+<p>Before every <code>uv run</code>, uv checks that <code>uv.lock</code> matches <code>pyproject.toml</code> and that <code>.venv</code> matches <code>uv.lock</code>, fixing either if needed. <code>uv run</code> syncs <em>inexactly</em> (adds what's missing, removes nothing). Use <code>uv run --exact</code> to also remove extras.</p>
+<p><strong>Activating still works.</strong> <code>.venv</code> is a normal virtual environment:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv sync
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pytest
+deactivate
+</code></pre></div>
+<p>By default, project commands ignore an already-activated <em>different</em> virtualenv (<code>VIRTUAL_ENV</code>) and warn you. Use <code>--active</code> to target it on purpose.</p>
+<h3 id="uv-tree"><code>uv tree</code><a class="anchor" href="#uv-tree" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv tree --depth 2
+Resolved 18 packages in 2ms
+weather-cli v0.1.0
+├── httpx v0.28.1
+│   ├── anyio v4.15.1
+│   ├── certifi v2026.7.22
+│   ├── httpcore v1.0.9
+│   └── idna v3.20
+├── rich v15.0.0
+│   ├── markdown-it-py v4.2.0
+│   └── pygments v2.21.0
+└── pytest v9.1.1 (group: dev)
+    ├── iniconfig v2.3.1
+    ├── packaging v26.3
+    ├── pluggy v1.6.0
+    └── pygments v2.21.0
+</code></pre></div>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv tree --outdated          # show newer versions available
+uv tree --invert --package idna   # who depends on idna?
+uv tree --show-sizes        # wheel sizes
+uv tree --universal         # platform-independent view
+uv tree --no-dev --format json
+</code></pre></div>
+<h3 id="uv-version"><code>uv version</code><a class="anchor" href="#uv-version" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv version
+weather-cli 0.1.0
+$ uv version --short
+0.1.0
+$ uv version --bump minor
+weather-cli 0.1.0 =&gt; 0.2.0
+$ uv version --bump patch --bump beta --dry-run
+weather-cli 0.2.0 =&gt; 0.2.1b1
+$ uv version --bump stable          # 0.2.1b1 =&gt; 0.2.1
+$ uv version 1.0.0                  # set explicitly
+$ uv version --output-format json
+</code></pre></div>
+<p><code>--bump</code> accepts <code>major</code>, <code>minor</code>, <code>patch</code>, <code>stable</code>, <code>alpha</code>, <code>beta</code>, <code>rc</code>, <code>post</code>, <code>dev</code>. <code>uv version</code> re-locks and syncs after a change; add <code>--frozen</code> to only edit <code>pyproject.toml</code>.</p>
+<h3 id="upgrading-dependencies-safely">Upgrading dependencies safely<a class="anchor" href="#upgrading-dependencies-safely" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv tree --outdated --depth 1     # what's behind?
+uv lock --upgrade-package rich   # targeted
+uv run pytest                    # verify
+git diff uv.lock                 # review
+</code></pre></div>
+<p>Want a supply-chain "cooldown" that ignores brand-new releases? Use <code>exclude-newer</code> with a duration:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv]
+exclude-newer = &quot;7 days&quot;     # also accepts ISO-8601 (P7D) or an RFC 3339 timestamp
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="8-single-file-scripts-with-inline-dependencies">
+<h2 id="8-single-file-scripts-with-inline-dependencies">8. Single-file scripts with inline dependencies<a class="anchor" href="#8-single-file-scripts-with-inline-dependencies" aria-label="Link to this section">#</a></h2>
+<p>Python's <a href="https://packaging.python.org/en/latest/specifications/inline-script-metadata/" target="_blank" rel="noopener">inline script metadata</a> (PEP 723) lets a single <code>.py</code> file declare its own dependencies. uv creates (and caches) an isolated environment for it on the fly.</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv init --script hello.py --python 3.13
+Initialized script at `hello.py`
+
+$ uv add --script pep_titles.py --python 3.13 httpx rich
+Resolved 11 packages in 2ms
+
+$ head -7 pep_titles.py
+# /// script
+# requires-python = &quot;&gt;=3.13&quot;
+# dependencies = [
+#     &quot;httpx&gt;=0.28.1&quot;,
+#     &quot;rich&gt;=15.0.0&quot;,
+# ]
+# ///
+
+$ uv run pep_titles.py
+PEP 8: Style Guide for Python Code
+PEP 20: The Zen of Python
+PEP 517: A build-system independent format for source trees
+PEP 723: Inline script metadata
+</code></pre></div>
+<p>Other script tricks:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv run --with rich script.py              # ad-hoc dependency without editing the file
+uv remove --script script.py rich
+uv lock --script script.py                # writes script.py.lock for reproducibility
+uv export --script script.py              # requirements.txt for a script
+uv tree --script script.py
+uv sync --script script.py                # shows/creates the cached env location
+echo 'print(&quot;hi&quot;)' | uv run -             # read the script from stdin
+uv run --python 3.12 script.py            # pick the interpreter
+</code></pre></div>
+<p>Pin a script in time for reproducibility:</p>
+<div class="code" data-lang="python"><div class="code-bar"><span class="code-lang">python</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-python"># /// script
+# dependencies = [&quot;requests&quot;]
+# [tool.uv]
+# exclude-newer = &quot;2026-10-01T00:00:00Z&quot;
+# ///
+</code></pre></div>
+<p>Make a script directly executable with a shebang:</p>
+<div class="code" data-lang="python"><div class="code-bar"><span class="code-lang">python</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-python">#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = &quot;&gt;=3.12&quot;
+# dependencies = [&quot;cowsay&quot;]
+# ///
+import cowsay
+cowsay.cow(&quot;Hello from a uv script!&quot;)
+</code></pre></div>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ chmod +x moo &amp;&amp; ./moo
+  _______________________
+| Hello from a uv script! |
+  =======================
+                       \
+                        \
+                          ^__^
+                          (oo)\_______
+                          (__)\       )\/\
+                              ||----w |
+                              ||     ||
+</code></pre></div>
+<aside class="callout callout-note">
+<p>Inside a project, a script <strong>with</strong> an inline block ignores the project's dependencies. A script <strong>without</strong> one runs in the project environment. Use <code>uv run --no-project script.py</code> to opt out explicitly (the flag must come before the script name).</p>
+</aside>
+</section>
+<section class="doc-section" data-section="9-tools-uvx-and-uv-tool">
+<h2 id="9-tools-uvx-and-uv-tool">9. Tools: <code>uvx</code> and <code>uv tool</code><a class="anchor" href="#9-tools-uvx-and-uv-tool" aria-label="Link to this section">#</a></h2>
+<p>Tools are Python packages that provide command-line programs. <code>uvx</code> is an exact alias for <code>uv tool run</code>.</p>
+<h3 id="run-without-installing">Run without installing<a class="anchor" href="#run-without-installing" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uvx pycowsay &quot;Hello from uvx!&quot;
+  ---------------
+&lt; Hello from uvx! &gt;
+  ---------------
+   \   ^__^
+    \  (oo)\_______
+       (__)\       )\/\
+           ||----w |
+           ||     ||
+
+$ uvx ruff@0.17.0 --version          # exact version
+$ uvx ruff@latest check              # force the newest release
+$ uvx --from httpie http --version   # command name differs from package name
+$ uvx --from 'mypy[reports]==1.13.0' mypy --help
+$ uvx --with mkdocs-material mkdocs serve       # plugins
+$ uvx --from git+https://github.com/httpie/cli httpie
+$ uvx --python 3.12 black .
+$ uvx --from ./dist/weather_cli-0.2.0-py3-none-any.whl weather-cli Paris  # try a built wheel
+</code></pre></div>
+<p><code>uvx</code> environments are cached and disposable. After the first run, <code>uvx tool</code> reuses the cached version until you ask for <code>@latest</code>, the cache is cleaned, or you pass <code>--refresh</code>.</p>
+<h3 id="install-persistently">Install persistently<a class="anchor" href="#install-persistently" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv tool install httpie
+Installed 3 executables: http, httpie, https
+$ uv tool install 'ruff&gt;=0.16'
+$ uv tool install ruff@latest
+$ uv tool install mkdocs --with mkdocs-material
+$ uv tool install --with-executables-from ansible-core,ansible-lint ansible
+$ uv tool install -e .               # your own CLI project, editable
+$ uv tool install git+https://github.com/org/internal-cli
+
+$ uv tool list
+httpie v3.2.4
+- http
+- httpie
+- https
+$ uv tool list --show-paths --show-version-specifiers --show-python
+$ uv tool list --outdated
+
+$ uv tool upgrade httpie            # respects the original constraints
+$ uv tool upgrade --all
+$ uv tool uninstall httpie
+$ uv tool dir                       # where tool environments live
+$ uv tool dir --bin                 # where executables are linked
+$ uv tool update-shell              # put the bin dir on PATH
+</code></pre></div>
+<p>Tool executables go in <code>~/.local/bin</code>. Tool environments are isolated: <code>python -c "import ruff"</code> won't work after <code>uv tool install ruff</code>, by design.</p>
+<h3 id="uvx-vs-uv-run-for-dev-tools"><code>uvx</code> vs <code>uv run</code> for dev tools<a class="anchor" href="#uvx-vs-uv-run-for-dev-tools" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>Use <strong><code>uv run pytest</code></strong> (with pytest in your <code>dev</code> group) for anything that needs to import <em>your</em> project: test runners, type checkers, Sphinx.</li>
+<li>Use <strong><code>uvx</code></strong> for standalone tools that don't import your code (cookiecutter, httpie, pre-commit, twine), or one-off runs.</li>
+<li>For linters/formatters like Ruff, either works. Pinning <code>ruff</code> in the <code>dev</code> group keeps the whole team on the same version.</li>
+</ul>
+</section>
+<section class="doc-section" data-section="10-the-pip-compatible-interface-uv-venv-and-uv-pip">
+<h2 id="10-the-pip-compatible-interface-uv-venv-and-uv-pip">10. The pip-compatible interface: <code>uv venv</code> and <code>uv pip</code><a class="anchor" href="#10-the-pip-compatible-interface-uv-venv-and-uv-pip" aria-label="Link to this section">#</a></h2>
+<p>The <code>uv pip</code> commands are a fast drop-in for pip, pip-tools and virtualenv workflows. Use them when you're working with <code>requirements.txt</code>, maintaining a legacy project, or need manual control.</p>
+<h3 id="uv-venv"><code>uv venv</code><a class="anchor" href="#uv-venv" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv venv                          # .venv with the default Python
+Using CPython 3.14.8
+Creating virtual environment at: .venv
+Activate with: source .venv/bin/activate
+$ uv venv --python 3.12            # specific Python (downloaded if needed)
+$ uv venv .venv-312 -p 3.12        # custom location
+$ uv venv --seed                   # include pip in the venv (for tools that call `pip`)
+$ uv venv --clear                  # required to replace an existing venv (since 0.10)
+$ uv venv --prompt myproj --system-site-packages
+$ uv venv --relocatable
+</code></pre></div>
+<aside class="callout callout-note">
+<p><strong>There is no pip inside a uv-created venv</strong> unless you pass <code>--seed</code>. <code>python -m pip</code> will fail. Use <code>uv pip …</code> instead, or create the venv with <code>--seed</code> for IDEs/tools that insist on pip.</p>
+</aside>
+<h3 id="installing-and-inspecting-packages">Installing and inspecting packages<a class="anchor" href="#installing-and-inspecting-packages" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv pip install flask &quot;ruff&gt;=0.16&quot; &quot;requests==2.32.3&quot;
+uv pip install -r requirements.txt
+uv pip install -r pyproject.toml --extra dev       # deps declared in pyproject
+uv pip install --group dev                          # a dependency group
+uv pip install -e .                                 # editable install of the current project
+uv pip install &quot;git+https://github.com/astral-sh/ruff@v0.17.0&quot;
+uv pip install --system requests                    # into a non-virtual Python (CI/Docker)
+uv pip install --target ./vendor requests           # into a directory
+uv pip install --dry-run -r requirements.txt
+uv pip install --torch-backend auto torch           # pick the right PyTorch build
+
+uv pip uninstall flask
+uv pip list                    # table
+uv pip list --outdated
+uv pip list --format json
+uv pip freeze &gt; requirements.lock.txt
+uv pip show flask
+uv pip tree --depth 1
+uv pip check                   # verify compatible dependencies
+</code></pre></div>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv pip tree --depth 1
+flask v3.1.3
+├── blinker v1.9.0
+├── click v8.5.0
+├── itsdangerous v2.2.0
+├── jinja2 v3.1.6
+├── markupsafe v3.0.4
+└── werkzeug v3.1.9
+python-dotenv v1.2.4
+requests v2.32.3
+├── certifi v2026.7.22
+├── charset-normalizer v3.5.2
+├── idna v3.20
+└── urllib3 v2.8.0
+</code></pre></div>
+<h3 id="which-environment-does-uv-pip-modify">Which environment does <code>uv pip</code> modify?<a class="anchor" href="#which-environment-does-uv-pip-modify" aria-label="Link to this section">#</a></h3>
+<ol>
+<li>The active venv (<code>VIRTUAL_ENV</code>), then an active Conda env (<code>CONDA_PREFIX</code>).</li>
+<li>A <code>.venv</code> in the current directory or a parent.</li>
+<li>Otherwise it errors and tells you to run <code>uv venv</code>, unless you pass <code>--system</code> or <code>--python &lt;path&gt;</code>.</li>
+</ol>
+<h3 id="compiling-and-syncing-pip-tools-replacement">Compiling and syncing (pip-tools replacement)<a class="anchor" href="#compiling-and-syncing-pip-tools-replacement" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv pip compile requirements.in -o requirements.txt           # lock loose deps to exact pins
+uv pip compile pyproject.toml -o requirements.txt
+uv pip compile pyproject.toml --extra dev -o requirements-dev.txt
+uv pip compile --group dev -o requirements-dev.txt
+uv pip compile requirements.in --universal -o requirements.txt   # one file for all platforms
+uv pip compile requirements.in --python-version 3.11 --python-platform linux
+uv pip compile requirements.in --generate-hashes -o requirements.txt
+uv pip compile requirements.in -o requirements.txt --upgrade-package django
+uv pip compile requirements.in -o pylock.toml                    # PEP 751 output
+
+uv pip sync requirements.txt      # make the env match exactly (removes extras)
+uv pip sync pylock.toml
+</code></pre></div>
+<p><code>uv pip install -r</code> adds/updates but never removes. <code>uv pip sync</code> makes the environment <em>exactly</em> match the file.</p>
+<p>Constraints, overrides and exclusions work like pip's:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv pip compile requirements.in -c constraints.txt    # cap versions without adding packages
+uv pip compile requirements.in --overrides overrides.txt   # force a version, ignoring others' pins
+uv pip compile requirements.in --excludes excludes.txt
+</code></pre></div>
+<p>The project-level equivalents are <code>constraint-dependencies</code>, <code>override-dependencies</code> and <code>exclude-dependencies</code> under <code>[tool.uv]</code>.</p>
+<h3 id="key-differences-from-pip">Key differences from pip<a class="anchor" href="#key-differences-from-pip" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>A virtual environment is required by default (<code>--system</code> opts out).</li>
+<li>No <code>pip</code> in uv-created venvs unless <code>--seed</code>.</li>
+<li><code>uv pip install</code> respects <code>requires-python</code> and prefers the newest compatible versions. It does <em>not</em> read <code>pip.conf</code>; configure uv via <code>uv.toml</code>, <code>[tool.uv.pip]</code> or <code>UV_*</code> environment variables.</li>
+<li><code>--index-url</code> / <code>--extra-index-url</code> work, but uv searches indexes in order and stops at the first one that has the package (safer against dependency confusion). See <code>--index-strategy</code> if you need pip's behavior.</li>
+<li>Pre-releases: uv tries stable versions first and falls back to pre-releases only when nothing stable satisfies the constraints (since 0.12).</li>
+</ul>
+</section>
+<section class="doc-section" data-section="11-working-with-vanilla-pip-users-requirementstxt-in-both-directions">
+<h2 id="11-working-with-vanilla-pip-users-requirementstxt-in-both-directions">11. Working with vanilla pip users: requirements.txt in both directions<a class="anchor" href="#11-working-with-vanilla-pip-users-requirementstxt-in-both-directions" aria-label="Link to this section">#</a></h2>
+<p>Not everyone on a team (or every deployment target) uses uv. uv speaks <code>requirements.txt</code> fluently in both directions.</p>
+<h3 id="scenario-a-you-use-uv-a-colleague-or-server-uses-plain-pip">Scenario A: you use uv, a colleague or server uses plain pip<a class="anchor" href="#scenario-a-you-use-uv-a-colleague-or-server-uses-plain-pip" aria-label="Link to this section">#</a></h3>
+<p>Export the lockfile to a pinned <code>requirements.txt</code>:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv export --no-dev --no-hashes --no-emit-project -o requirements.txt
+$ head -12 requirements.txt
+# This file was autogenerated by uv via the following command:
+#    uv export --no-dev --no-hashes --no-emit-project -o requirements.txt
+anyio==4.15.1
+    # via httpx
+certifi==2026.7.22
+    # via
+    #   httpcore
+    #   httpx
+h11==0.16.0
+    # via httpcore
+httpcore==1.0.9
+    # via httpx
+</code></pre></div>
+<p>Your colleague installs with nothing but standard Python:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ python3.13 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+$ .venv/bin/pip freeze
+anyio==4.15.1
+certifi==2026.7.22
+h11==0.16.0
+httpcore==1.0.9
+httpx==0.28.1
+idna==3.20
+markdown-it-py==4.2.0
+mdurl==0.1.2
+Pygments==2.21.0
+rich==15.0.0
+typing_extensions==4.16.0
+</code></pre></div>
+<p>Choosing export flags:</p>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Effect</th>
+<th>When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>(default)</em></td>
+<td>Includes hashes, the <code>dev</code> group, and <code>-e .</code> for your project</td>
+<td>Hash-checked installs of a dev environment</td>
+</tr>
+<tr>
+<td><code>--no-dev</code></td>
+<td>Exclude the <code>dev</code> group</td>
+<td>Production requirements</td>
+</tr>
+<tr>
+<td><code>--all-groups</code> / <code>--group docs</code></td>
+<td>Include more groups</td>
+<td><code>requirements-dev.txt</code>, docs builds</td>
+</tr>
+<tr>
+<td><code>--all-extras</code> / <code>--extra plot</code></td>
+<td>Include extras</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--no-hashes</code></td>
+<td>Plain <code>pkg==version</code> lines</td>
+<td>Easier to read, older tooling</td>
+</tr>
+<tr>
+<td><code>--no-emit-project</code></td>
+<td>Leave out <code>-e .</code></td>
+<td>Deploying deps only; consumer doesn't have your source</td>
+</tr>
+<tr>
+<td><code>--no-header</code> / <code>--no-annotate</code></td>
+<td>Drop comments</td>
+<td>Minimal files</td>
+</tr>
+<tr>
+<td><code>--format pylock.toml</code></td>
+<td>PEP 751 lockfile</td>
+<td>Tools that support <code>pylock.toml</code></td>
+</tr>
+<tr>
+<td><code>--format cyclonedx1.5</code></td>
+<td>SBOM (preview)</td>
+<td>Security/compliance</td>
+</tr>
+<tr>
+<td><code>--frozen</code></td>
+<td>Don't re-lock first</td>
+<td>CI</td>
+</tr>
+</tbody>
+</table></div>
+<p>A typical pair of files:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv export --no-dev --no-hashes -o requirements.txt
+uv export --all-groups --no-hashes --no-emit-project -o requirements-dev.txt
+</code></pre></div>
+<aside class="callout callout-warn">
+<p><strong>Gotchas</strong>
+- <code>uv export -o file</code> writes the file <strong>and</strong> prints it to stdout. Redirect to <code>/dev/null</code> in scripts if the noise bothers you.
+- The export targets your project's <code>requires-python</code>. A pip user on an older Python may pull in extra backports (for example <code>exceptiongroup</code> on 3.10) that aren't in the file, or fail outright. Tell them which Python to use (keep <code>.python-version</code> in the repo).
+- The lines carry environment markers (<code>; sys_platform == 'win32'</code>), so one file works on every OS.</p>
+</aside>
+<p><strong>Keep it in sync automatically</strong> with the official pre-commit hook (see <a href="#pre-commit">§18</a>):</p>
+<div class="code" data-lang="yaml"><div class="code-bar"><span class="code-lang">yaml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-yaml">- repo: https://github.com/astral-sh/uv-pre-commit
+  rev: 0.13.1
+  hooks:
+    - id: uv-lock
+    - id: uv-export
+      args: [&quot;--no-dev&quot;, &quot;--no-hashes&quot;, &quot;-o&quot;, &quot;requirements.txt&quot;]
+</code></pre></div>
+<h3 id="scenario-b-someone-hands-you-a-requirementstxt">Scenario B: someone hands you a requirements.txt<a class="anchor" href="#scenario-b-someone-hands-you-a-requirementstxt" aria-label="Link to this section">#</a></h3>
+<p><strong>Option 1: just install it (no project).</strong></p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv venv --python 3.13
+$ uv pip install -r requirements.txt
+Resolved 13 packages in 626ms
+Installed 13 packages in 6ms
+ + blinker==1.9.0
+ + flask==3.1.3
+ ...
+</code></pre></div>
+<p><strong>Option 2: convert it into a uv project</strong> (recommended for anything long-lived):</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv init --bare --python 3.13
+Initialized project `legacy-app`
+$ uv add -r requirements.txt                              # use its ranges
+$ uv add -r requirements.in -c requirements.txt           # keep previously locked versions
+$ uv add --dev -r requirements-dev.txt
+$ cat pyproject.toml
+[project]
+name = &quot;legacy-app&quot;
+version = &quot;0.1.0&quot;
+requires-python = &quot;&gt;=3.13&quot;
+dependencies = [
+    &quot;flask&gt;=3.0&quot;,
+    &quot;python-dotenv&gt;=1.2.4&quot;,
+    &quot;requests==2.32.3&quot;,
+]
+</code></pre></div>
+<p>If <code>requirements-dev.in</code> starts with <code>-r requirements.in</code>, strip that line first so base deps don't land in the dev group:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">sed '/^-r /d' requirements-dev.in | uv add --dev -r - -c requirements-dev.txt
+</code></pre></div>
+<p><strong>Option 3: stay in pip-tools style</strong> (<code>requirements.in</code> → <code>requirements.txt</code>):</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv pip compile requirements.in -o requirements.txt --universal
+uv pip sync requirements.txt
+</code></pre></div>
+<h3 id="scenario-c-you-need-pip-itself-inside-the-environment">Scenario C: you need pip itself inside the environment<a class="anchor" href="#scenario-c-you-need-pip-itself-inside-the-environment" aria-label="Link to this section">#</a></h3>
+<p>Some IDEs, notebooks or legacy scripts call <code>pip</code> directly.</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv venv --seed                 # adds pip to the venv
+uv add --dev pip               # or make pip a dev dependency of the project
+</code></pre></div>
+<h3 id="quick-decision-table">Quick decision table<a class="anchor" href="#quick-decision-table" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Situation</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New project</td>
+<td><code>uv init</code> + <code>uv add</code> (commit <code>uv.lock</code>)</td>
+</tr>
+<tr>
+<td>Deploy target only has pip</td>
+<td><code>uv export --no-dev -o requirements.txt</code></td>
+</tr>
+<tr>
+<td>Existing repo with requirements files, team not ready to switch</td>
+<td><code>uv pip compile</code> / <code>uv pip sync</code> / <code>uv pip install -r</code></td>
+</tr>
+<tr>
+<td>Existing repo, ready to switch</td>
+<td><code>uv init --bare</code> + <code>uv add -r requirements.in -c requirements.txt</code></td>
+</tr>
+<tr>
+<td>Need a standards-based lockfile for another tool</td>
+<td><code>uv export --format pylock.toml -o pylock.toml</code></td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="doc-section" data-section="12-building-and-publishing-packages-to-pypi">
+<h2 id="12-building-and-publishing-packages-to-pypi">12. Building and publishing packages to PyPI<a class="anchor" href="#12-building-and-publishing-packages-to-pypi" aria-label="Link to this section">#</a></h2>
+<h3 id="prepare-the-project">Prepare the project<a class="anchor" href="#prepare-the-project" aria-label="Link to this section">#</a></h3>
+<p>Any packaged project works (<code>uv init --lib</code>, or the default app layout). A minimal library:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv init --lib tempconv --python 3.13
+$ find . -path ./.git -prune -o -type f -print | sort
+./.gitignore
+./.python-version
+./README.md
+./pyproject.toml
+./src/tempconv/__init__.py
+./src/tempconv/py.typed
+</code></pre></div>
+<p>Fill in the metadata PyPI displays:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[project]
+name = &quot;tempconv&quot;
+version = &quot;0.1.0&quot;
+description = &quot;Tiny temperature conversion helpers&quot;
+readme = &quot;README.md&quot;
+license = &quot;MIT&quot;
+license-files = [&quot;LICENSE&quot;]
+authors = [{ name = &quot;Robert McDermott&quot;, email = &quot;robert@example.com&quot; }]
+requires-python = &quot;&gt;=3.13&quot;
+keywords = [&quot;temperature&quot;, &quot;conversion&quot;]
+classifiers = [
+    &quot;Programming Language :: Python :: 3&quot;,
+    &quot;Operating System :: OS Independent&quot;,
+]
+dependencies = []
+
+[project.urls]
+Homepage = &quot;https://github.com/you/tempconv&quot;
+Issues = &quot;https://github.com/you/tempconv/issues&quot;
+
+[build-system]
+requires = [&quot;uv_build&gt;=0.13.1,&lt;0.14.0&quot;]
+build-backend = &quot;uv_build&quot;
+</code></pre></div>
+<aside class="callout callout-note">
+<p>Keep the upper bound on <code>uv_build</code> (<code>&lt;0.14.0</code>). When you move to a new uv minor release, bump it.</p>
+</aside>
+<p><strong>uv_build module layout.</strong> By default the backend expects <code>src/&lt;normalized_name&gt;/__init__.py</code>. To change it:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv.build-backend]
+module-name = &quot;temp_conv&quot;   # import name, if it differs from the project name
+module-root = &quot;&quot;            # flat layout (module next to pyproject.toml) instead of src/
+</code></pre></div>
+<p>Prefer a different backend? <code>uv init --build-backend hatch</code> (or <code>setuptools</code>, <code>flit</code>, <code>pdm</code>, <code>poetry</code>, <code>maturin</code>, <code>scikit</code>). <code>uv build</code> works with any PEP 517 backend.</p>
+<p><strong>Internal packages</strong> that must never reach PyPI:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">classifiers = [&quot;Private :: Do Not Upload&quot;]
+</code></pre></div>
+<h3 id="version-build-smoke-test">Version, build, smoke-test<a class="anchor" href="#version-build-smoke-test" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv version --bump minor
+tempconv 0.1.0 =&gt; 0.2.0
+
+$ uv build
+Building source distribution...
+Building wheel from source distribution...
+Successfully built dist/tempconv-0.2.0.tar.gz
+Successfully built dist/tempconv-0.2.0-py3-none-any.whl
+
+$ uv build --no-sources --clear     # release build: ignore tool.uv.sources, wipe old dist/
+$ uv build --wheel                  # wheel only (or --sdist)
+$ uv build --package core           # one workspace member (or --all-packages)
+
+$ uv run --isolated --no-project --with dist/tempconv-0.2.0-py3-none-any.whl \
+    python -c &quot;import tempconv; print(tempconv.c_to_f(100))&quot;
+212.0
+</code></pre></div>
+<h3 id="publish-to-testpypi-first">Publish to TestPyPI first<a class="anchor" href="#publish-to-testpypi-first" aria-label="Link to this section">#</a></h3>
+<ol>
+<li>Create an account at <a href="https://test.pypi.org" target="_blank" rel="noopener">https://test.pypi.org</a> and an API token.</li>
+<li>Add the index to <code>pyproject.toml</code>:</li>
+</ol>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[[tool.uv.index]]
+name = &quot;testpypi&quot;
+url = &quot;https://test.pypi.org/simple/&quot;
+publish-url = &quot;https://test.pypi.org/legacy/&quot;
+explicit = true
+</code></pre></div>
+<ol start="3">
+<li>Publish (dry run first):</li>
+</ol>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ export UV_PUBLISH_TOKEN=pypi-AgENdGVzdC5weXBpLm9yZw...
+$ uv publish --index testpypi --dry-run
+Checking 2 files against https://test.pypi.org/legacy/
+Checking tempconv-0.2.0-py3-none-any.whl (1.5KiB)
+Checking tempconv-0.2.0.tar.gz (1.0KiB)
+$ uv publish --index testpypi
+</code></pre></div>
+<p>Without the config block, use <code>uv publish --publish-url https://test.pypi.org/legacy/ --token "$TOKEN"</code>.</p>
+<ol start="4">
+<li>Install it back from TestPyPI:</li>
+</ol>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv run --no-project --with tempconv \
+  --index https://test.pypi.org/simple/ --index-strategy unsafe-best-match \
+  -- python -c &quot;import tempconv; print(tempconv.f_to_c(212))&quot;
+</code></pre></div>
+<p>(<code>unsafe-best-match</code> lets dependencies come from real PyPI. Add <code>--refresh-package tempconv</code> if a cached copy gets in the way.)</p>
+<h3 id="publish-to-pypi">Publish to PyPI<a class="anchor" href="#publish-to-pypi" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">export UV_PUBLISH_TOKEN=pypi-AgEIcHlwaS5vcmc...   # a project-scoped token is best
+uv publish                                       # uploads dist/*
+uv publish dist/tempconv-0.2.0*                  # specific files
+</code></pre></div>
+<p>Credentials: <code>--token</code>/<code>UV_PUBLISH_TOKEN</code>, or <code>--username</code>/<code>--password</code> (<code>UV_PUBLISH_USERNAME</code>/<code>UV_PUBLISH_PASSWORD</code>). PyPI only accepts tokens now (username <code>__token__</code>). If an upload half-fails, rerun the same command; PyPI skips identical files. For other registries, use <code>--check-url &lt;index-url&gt;</code>.</p>
+<h3 id="trusted-publishing-from-github-actions-no-secrets">Trusted Publishing from GitHub Actions (no secrets)<a class="anchor" href="#trusted-publishing-from-github-actions-no-secrets" aria-label="Link to this section">#</a></h3>
+<p>Add a <a href="https://docs.pypi.org/trusted-publishers/" target="_blank" rel="noopener">trusted publisher</a> on PyPI (project → <em>Publishing</em>), create a <code>pypi</code> environment in GitHub, then:</p>
+<div class="code" data-lang="yaml"><div class="code-bar"><span class="code-lang">yaml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-yaml"># .github/workflows/release.yml
+name: Publish to PyPI
+on:
+  push:
+    tags: [&quot;v*.*.*&quot;]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions: { contents: read }
+    steps:
+      - uses: actions/checkout@v7
+        with: { persist-credentials: false }
+      - uses: astral-sh/setup-uv@v9
+        with: { enable-cache: false }
+      - run: uv build
+      - run: uv run --isolated --no-project --with dist/*.whl tests/smoke_test.py
+      - uses: actions/upload-artifact@v7
+        with: { name: dist, path: dist/ }
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    environment: { name: pypi }
+    permissions: { id-token: write }
+    steps:
+      - uses: astral-sh/setup-uv@v9
+        with: { enable-cache: false }
+      - uses: actions/download-artifact@v8
+        with: { name: dist, path: dist/ }
+      - run: uv publish
+</code></pre></div>
+<p>Then <code>uv version --bump patch &amp;&amp; git commit -am "release" &amp;&amp; git tag v0.2.1 &amp;&amp; git push --tags</code>. uv detects trusted publishing automatically and uploads PEP 740 attestations it finds next to the files (<code>--no-attestations</code> to skip). Astral's own workflow pins actions to commit SHAs. Do the same in production.</p>
+</section>
+<section class="doc-section" data-section="13-workspaces-monorepos">
+<h2 id="13-workspaces-monorepos">13. Workspaces (monorepos)<a class="anchor" href="#13-workspaces-monorepos" aria-label="Link to this section">#</a></h2>
+<p>A workspace is a set of packages in one repo that share <strong>one lockfile and one <code>.venv</code></strong> (like Cargo workspaces).</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv init acme --python 3.13 &amp;&amp; cd acme
+$ uv init --lib packages/core
+Adding `core` as member of workspace `/Users/you/dev/acme`
+Initialized project `core` at `/Users/you/dev/acme/packages/core`
+$ uv init packages/api
+Adding `api` as member of workspace `/Users/you/dev/acme`
+
+$ cd packages/api &amp;&amp; uv add core      # depend on a sibling member
+$ cat pyproject.toml | tail -2
+[tool.uv.sources]
+core = { workspace = true }
+</code></pre></div>
+<p>The root <code>pyproject.toml</code> gains:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv.workspace]
+members = [&quot;packages/core&quot;, &quot;packages/api&quot;]   # globs allowed: [&quot;packages/*&quot;]
+exclude = [&quot;packages/experimental&quot;]
+</code></pre></div>
+<p>Working in a workspace:</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv workspace list
+acme
+api
+core
+$ uv workspace list --paths
+$ uv workspace dir --package core
+$ uv sync --all-packages             # install every member
+$ uv run --package api api           # run in a member from anywhere in the repo
+Hello from api!
+$ uv lock                            # always locks the whole workspace
+$ uv build --all-packages            # dist/ gets a wheel + sdist per member
+$ uv export --all-packages
+$ uv workspace metadata              # JSON description of the workspace (preview)
+</code></pre></div>
+<p>Rules of thumb:</p>
+<ul>
+<li>Members depend on each other via <code>{ workspace = true }</code> and are always editable.</li>
+<li>There's one <code>requires-python</code> for the whole workspace (the intersection of all members).</li>
+<li><code>[tool.uv]</code> settings are read from the workspace root only.</li>
+<li>If members need conflicting dependency versions or separate environments, use independent projects with <code>path</code> sources instead.</li>
+</ul>
+</section>
+<section class="doc-section" data-section="14-code-quality-ruff-uv-format-uv-check-and-uv-audit">
+<h2 id="14-code-quality-ruff-uv-format-uv-check-and-uv-audit">14. Code quality: Ruff, <code>uv format</code>, <code>uv check</code> and <code>uv audit</code><a class="anchor" href="#14-code-quality-ruff-uv-format-uv-check-and-uv-audit" aria-label="Link to this section">#</a></h2>
+<h3 id="is-ruff-built-into-uv">Is Ruff built into uv?<a class="anchor" href="#is-ruff-built-into-uv" aria-label="Link to this section">#</a></h3>
+<p>Partly. <code>uv format</code> runs Ruff's <strong>formatter</strong> for you: it downloads a Ruff binary on demand. It is still a <strong>preview</strong> command (it prints an "experimental" warning), and it pins its own default Ruff version (0.15.x in uv 0.13.1) rather than the newest Ruff. There is <strong>no <code>uv lint</code></strong>: for linting you run <code>ruff check</code> yourself. Most teams add Ruff as a dev dependency so everyone uses the same version:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv add --dev ruff
+uv run ruff check            # lint
+uv run ruff check --fix      # lint + safe autofixes
+uv run ruff format           # format
+uv run ruff format --check   # CI: fail if unformatted
+</code></pre></div>
+<p>Or without adding it to the project: <code>uvx ruff check</code>, or <code>uv tool install ruff</code>.</p>
+<h3 id="ruff-in-2-minutes">Ruff in 2 minutes<a class="anchor" href="#ruff-in-2-minutes" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv run ruff check
+UP035 [*] Import from `collections.abc` instead: `Iterable`
+ --&gt; src/numbers/calculate.py:1:1
+...
+F401 [*] `os` imported but unused
+ --&gt; src/numbers/calculate.py:2:8
+...
+Found 7 errors.
+[*] 5 fixable with `--fix` (2 unsafe fixes available with `--fix --unsafe-fixes`).
+
+$ uv run ruff check --fix
+...
+Found 7 errors (5 fixed, 2 remaining).
+2 unsafe fixes available with `--fix --unsafe-fixes`.
+
+$ uv run ruff format --diff      # preview formatting changes
+$ uv run ruff format
+1 file reformatted, 2 files left unchanged
+
+$ uv run ruff check --statistics
+1   SIM103  needless-bool
+1   F841    unused-variable
+$ uv run ruff rule F841          # explain a rule
+$ uv run ruff check --watch      # re-lint on save
+$ uv run ruff check --select UP035 --add-noqa .   # baseline an existing codebase
+</code></pre></div>
+<p>Ruff 0.17's default rule set is much broader than older releases (it now includes pyflakes <code>F</code>, bugbear-style, pyupgrade <code>UP</code>, import sorting <code>I</code>, simplification <code>SIM</code> and more). It also defaults to Python 3.11 when it can't find a target version. With a <code>requires-python</code> in <code>pyproject.toml</code>, Ruff uses that automatically.</p>
+<h3 id="a-sensible-team-configuration">A sensible team configuration<a class="anchor" href="#a-sensible-team-configuration" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.ruff]
+line-length = 100
+# target-version is inferred from [project].requires-python
+
+[tool.ruff.lint]
+extend-select = [
+  &quot;E501&quot;,   # line too long (off by default because the formatter handles it)
+  &quot;D&quot;,      # pydocstyle (optional)
+]
+ignore = [&quot;D100&quot;, &quot;D104&quot;]
+
+[tool.ruff.lint.pydocstyle]
+convention = &quot;google&quot;
+
+[tool.ruff.lint.per-file-ignores]
+&quot;tests/**&quot; = [&quot;D&quot;]
+
+[tool.ruff.format]
+quote-style = &quot;double&quot;
+docstring-code-format = true
+</code></pre></div>
+<p>Suppressing: <code># noqa: F401</code> on a line, <code># ruff: noqa: UP035</code> for a file. Ruff 0.17 also supports <code># ruff: ignore[...]</code> comments (<code>ruff check --add-ignore</code>).</p>
+<h3 id="uv-format"><code>uv format</code><a class="anchor" href="#uv-format" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv format --check
+warning: `uv format` is experimental and may change without warning. Pass `--preview-features format-command` to disable this warning.
+Would reformat: src/weather_cli/__init__.py
+1 file would be reformatted, 1 file already formatted
+$ uv format                            # format the project
+$ uv format --diff
+$ uv format --version 0.17.0           # use a specific Ruff version
+$ uv format -- --line-length 100       # pass extra args through to `ruff format`
+$ uv format --preview-features format-command   # silence the warning
+</code></pre></div>
+<p>It reads the same <code>[tool.ruff]</code> configuration.</p>
+<h3 id="uv-check-type-checking-with-ty-preview"><code>uv check</code>: type checking with ty (preview)<a class="anchor" href="#uv-check-type-checking-with-ty-preview" aria-label="Link to this section">#</a></h3>
+<p><code>uv check</code> runs Astral's <strong>ty</strong> type checker against your project environment, downloading ty on demand.</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv check
+warning: `uv check` is experimental and may change without warning. Pass `--preview-features check-command` to disable this warning.
+error[invalid-assignment]: Object of type `float` is not assignable to `str`
+ --&gt; src/weather_cli/oops.py:3:15
+  |
+3 | result: str = c_to_f(10)
+  |         ---   ^^^^^^^^^^ Incompatible value of type `float`
+  |         |
+  |         Declared type
+
+Found 1 diagnostic
+</code></pre></div>
+<p>Useful flags: <code>--fix</code>, <code>--all-packages</code>, <code>--package</code>, <code>--script file.py</code>, <code>--ty-version</code>, <code>--python 3.13</code>.</p>
+<h3 id="uv-audit-vulnerability-scanning-preview"><code>uv audit</code>: vulnerability scanning (preview)<a class="anchor" href="#uv-audit-vulnerability-scanning-preview" aria-label="Link to this section">#</a></h3>
+<p><code>uv audit</code> checks every locked dependency against the <a href="https://osv.dev" target="_blank" rel="noopener">OSV</a> database.</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv audit
+warning: `uv audit` is experimental and may change without warning. Pass `--preview-features audit-command` to disable this warning.
+Resolved 18 packages in 1ms
+Found no known vulnerabilities and no adverse project statuses in 17 packages
+
+$ uv add &quot;jinja2==3.1.2&quot; &amp;&amp; uv audit
+...
+Found 10 known vulnerabilities and no adverse project statuses in 19 packages
+
+Vulnerabilities:
+
+jinja2 3.1.2 has 10 known vulnerabilities:
+
+- PYSEC-2026-1474: Jinja vulnerable to HTML attribute injection when passing user input as keys to xmlattr filter
+  Fixed in: 3.1.4
+...
+</code></pre></div>
+<p>Flags: <code>--output-format json|sarif</code> (SARIF plugs into GitHub code scanning), <code>--ignore &lt;ID&gt;</code>, <code>--ignore-until-fixed &lt;ID&gt;</code>, <code>--no-dev</code>, <code>--script</code>. Installed tools can be audited with <code>uv tool audit --all</code>, but only tools installed with the <code>tool-install-locks</code> preview feature have a lockfile to audit.</p>
+<p>There's also opt-in <strong>malware checking during sync</strong> (preview): set <code>UV_MALWARE_CHECK=1</code> or <code>audit.malware-check = true</code>.</p>
+<h3 id="editor-integration">Editor integration<a class="anchor" href="#editor-integration" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>VS Code / Cursor:</strong> install the Ruff extension (native language server); point the Python interpreter at <code>.venv/bin/python</code> (run <code>uv sync</code> first so it exists). ty also has an editor extension.</li>
+<li><strong>PyCharm:</strong> recent versions detect <code>uv.lock</code> and offer uv as the interpreter type.</li>
+<li><strong>Neovim/Helix:</strong> <code>ruff server</code> and <code>ty server</code> speak LSP.</li>
+</ul>
+</section>
+<section class="doc-section" data-section="15-configuration-and-environment-variables">
+<h2 id="15-configuration-and-environment-variables">15. Configuration and environment variables<a class="anchor" href="#15-configuration-and-environment-variables" aria-label="Link to this section">#</a></h2>
+<h3 id="where-uv-reads-settings-highest-precedence-first">Where uv reads settings (highest precedence first)<a class="anchor" href="#where-uv-reads-settings-highest-precedence-first" aria-label="Link to this section">#</a></h3>
+<ol>
+<li>Command-line flags</li>
+<li>Environment variables (<code>UV_*</code>)</li>
+<li>Project config: <code>uv.toml</code> or <code>[tool.uv]</code> in <code>pyproject.toml</code> (found in the current directory or a parent; for workspaces, only the root). If both exist in one directory, <code>uv.toml</code> wins.</li>
+<li>User config: <code>~/.config/uv/uv.toml</code> (macOS/Linux) or <code>%APPDATA%\uv\uv.toml</code> (Windows)</li>
+<li>System config: <code>/etc/uv/uv.toml</code> or <code>%PROGRAMDATA%\uv\uv.toml</code></li>
+</ol>
+<p>Scalars from closer files override farther ones; arrays are concatenated. <code>--no-config</code> ignores all files; <code>--config-file path/uv.toml</code> uses only that file. <code>uv tool …</code> commands ignore project config and read only user/system config.</p>
+<p><code>uv.toml</code> uses the same keys as <code>[tool.uv]</code> without the prefix:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini"># ~/.config/uv/uv.toml: a good personal baseline
+python-preference = &quot;managed&quot;      # managed | only-managed | system | only-system
+python-downloads = &quot;automatic&quot;     # automatic | manual | never
+link-mode = &quot;clone&quot;                # clone | copy | hardlink | symlink
+compile-bytecode = false
+add-bounds = &quot;lower&quot;               # lower | major | minor | exact
+system-certs = true                # use the OS trust store (corporate TLS proxies)
+</code></pre></div>
+<h3 id="frequently-used-tooluv-settings">Frequently used <code>[tool.uv]</code> settings<a class="anchor" href="#frequently-used-tooluv-settings" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv]
+default-groups = [&quot;dev&quot;]                    # or &quot;all&quot;
+managed = true                              # false = uv won't auto-lock/sync this project
+package = true                              # force-build/install the project (or false to never)
+required-version = &quot;&gt;=0.13&quot;                 # fail fast if a teammate's uv is too old
+exclude-newer = &quot;7 days&quot;                    # dependency cooldown (or a timestamp)
+environments = [&quot;sys_platform == 'darwin'&quot;, &quot;sys_platform == 'linux'&quot;]  # limit lock platforms
+required-environments = [&quot;sys_platform == 'darwin' and platform_machine == 'x86_64'&quot;]
+constraint-dependencies = [&quot;urllib3&lt;3&quot;]
+override-dependencies = [&quot;somepkg&gt;=2&quot;]      # ignore other packages' bounds on somepkg
+conflicts = [[{ extra = &quot;cpu&quot; }, { extra = &quot;gpu&quot; }]]
+preview-features = [&quot;format-command&quot;, &quot;check-command&quot;, &quot;audit-command&quot;]  # silence warnings
+
+[tool.uv.pip]                               # applies only to `uv pip …`
+index-url = &quot;https://pypi.org/simple&quot;
+</code></pre></div>
+<aside class="callout callout-note">
+<p><code>required-version</code> is an easy win for teams: it stops someone on an old uv from rewriting <code>uv.lock</code> in a format others can't read.</p>
+</aside>
+<h3 id="env-files"><code>.env</code> files<a class="anchor" href="#env-files" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv run --env-file .env -- python app.py
+uv run --env-file .env --env-file .env.local -- python app.py   # later files override
+export UV_ENV_FILE=&quot;.env .env.local&quot;
+uv run --no-env-file app.py
+</code></pre></div>
+<p>Variables already set in the shell take precedence over the file.</p>
+<h3 id="environment-variables-worth-knowing">Environment variables worth knowing<a class="anchor" href="#environment-variables-worth-knowing" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Variable</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>UV_PYTHON</code></td>
+<td>Same as <code>--python</code></td>
+</tr>
+<tr>
+<td><code>UV_PROJECT_ENVIRONMENT</code></td>
+<td>Use a different venv path for the project (e.g. <code>/usr/local</code> in Docker, or an external dir)</td>
+</tr>
+<tr>
+<td><code>UV_CACHE_DIR</code> / <code>UV_NO_CACHE</code></td>
+<td>Cache location / disable the cache</td>
+</tr>
+<tr>
+<td><code>UV_LINK_MODE</code></td>
+<td><code>copy</code> silences hard-link warnings across filesystems</td>
+</tr>
+<tr>
+<td><code>UV_COMPILE_BYTECODE</code></td>
+<td>Pre-compile <code>.pyc</code> at install (Docker images)</td>
+</tr>
+<tr>
+<td><code>UV_SYSTEM_CERTS</code></td>
+<td>Trust the OS certificate store (renamed from <code>UV_NATIVE_TLS</code>)</td>
+</tr>
+<tr>
+<td><code>SSL_CERT_FILE</code></td>
+<td>Point at a PEM bundle (e.g. corporate CA)</td>
+</tr>
+<tr>
+<td><code>UV_INDEX</code>, <code>UV_DEFAULT_INDEX</code></td>
+<td>Extra / default package indexes</td>
+</tr>
+<tr>
+<td><code>UV_INDEX_&lt;NAME&gt;_USERNAME</code> / <code>_PASSWORD</code></td>
+<td>Credentials for a named index</td>
+</tr>
+<tr>
+<td><code>UV_PUBLISH_TOKEN</code></td>
+<td>Token for <code>uv publish</code></td>
+</tr>
+<tr>
+<td><code>UV_LOCKED</code>, <code>UV_FROZEN</code>, <code>UV_NO_SYNC</code>, <code>UV_NO_DEV</code></td>
+<td>CI behavior switches</td>
+</tr>
+<tr>
+<td><code>UV_SYSTEM_PYTHON</code></td>
+<td>Let <code>uv pip</code> install into system Python</td>
+</tr>
+<tr>
+<td><code>UV_PYTHON_DOWNLOADS=never</code></td>
+<td>Never download interpreters</td>
+</tr>
+<tr>
+<td><code>UV_OFFLINE</code></td>
+<td>No network at all</td>
+</tr>
+<tr>
+<td><code>UV_EXCLUDE_NEWER</code></td>
+<td>Global cooldown/timestamp</td>
+</tr>
+<tr>
+<td><code>UV_TORCH_BACKEND</code></td>
+<td><code>auto</code>, <code>cpu</code>, <code>cu128</code>… for PyTorch</td>
+</tr>
+<tr>
+<td><code>UV_HTTP_TIMEOUT</code>, <code>UV_CONCURRENT_DOWNLOADS</code></td>
+<td>Network tuning</td>
+</tr>
+<tr>
+<td><code>UV_TOOL_BIN_DIR</code>, <code>UV_TOOL_DIR</code>, <code>UV_PYTHON_INSTALL_DIR</code></td>
+<td>Relocate tools/Pythons</td>
+</tr>
+<tr>
+<td><code>UV_PREVIEW=1</code>, <code>UV_PREVIEW_FEATURES=…</code></td>
+<td>Enable preview features</td>
+</tr>
+<tr>
+<td><code>UV_NO_MODIFY_PATH</code></td>
+<td>Stop the installer/self-update from editing shell profiles</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="doc-section" data-section="16-package-indexes-and-authentication">
+<h2 id="16-package-indexes-and-authentication">16. Package indexes and authentication<a class="anchor" href="#16-package-indexes-and-authentication" aria-label="Link to this section">#</a></h2>
+<h3 id="defining-indexes">Defining indexes<a class="anchor" href="#defining-indexes" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[[tool.uv.index]]
+name = &quot;internal&quot;
+url = &quot;https://pypi.internal.example.org/simple&quot;
+
+[[tool.uv.index]]
+name = &quot;pytorch-cpu&quot;
+url = &quot;https://download.pytorch.org/whl/cpu&quot;
+explicit = true            # only used by packages that opt in via sources
+
+[tool.uv.sources]
+torch = { index = &quot;pytorch-cpu&quot; }
+</code></pre></div>
+<ul>
+<li>Indexes are searched <strong>in the order listed</strong>, then PyPI (the implicit default). Add <code>default = true</code> to replace PyPI.</li>
+<li>uv stops at the <strong>first index that has the package</strong> (<code>first-index</code> strategy). This prevents dependency-confusion attacks. Use <code>index-strategy = "unsafe-best-match"</code> only if you really need pip-like merging.</li>
+<li><code>explicit = true</code> keeps an index from being used for anything except packages pinned to it.</li>
+<li>On the command line: <code>--index name=url</code>, <code>--default-index url</code>. The legacy <code>--index-url</code> / <code>--extra-index-url</code> also work.</li>
+</ul>
+<h3 id="credentials">Credentials<a class="anchor" href="#credentials" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash"># per-index environment variables (name uppercased, non-alphanumerics → _)
+export UV_INDEX_INTERNAL_USERNAME=robert
+export UV_INDEX_INTERNAL_PASSWORD=&quot;$TOKEN&quot;
+
+# or store them with uv's credential store
+uv auth login pypi.internal.example.org --username robert --password -   # reads from stdin
+uv auth login example.com --token &quot;$TOKEN&quot;
+uv auth token example.com
+uv auth logout example.com
+uv auth dir
+</code></pre></div>
+<p>uv also reads <code>~/.netrc</code> and can call the <code>keyring</code> CLI (<code>--keyring-provider subprocess</code>). Credentials are <strong>never</strong> written to <code>uv.lock</code>. Guides exist for Azure Artifacts, AWS CodeArtifact, Google Artifact Registry and JFrog in the uv docs. Private Git dependencies use your normal Git credentials (SSH keys, credential helpers, <code>gh auth setup-git</code>).</p>
+<h3 id="corporate-networks--tls-inspection">Corporate networks / TLS inspection<a class="anchor" href="#corporate-networks--tls-inspection" aria-label="Link to this section">#</a></h3>
+<p>If you see certificate errors behind a proxy that re-signs TLS traffic:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv sync --system-certs           # or: export UV_SYSTEM_CERTS=1
+export SSL_CERT_FILE=/path/to/corporate-ca-bundle.pem
+export HTTPS_PROXY=http://proxy.example.org:8080
+</code></pre></div>
+<h3 id="pytorch">PyTorch<a class="anchor" href="#pytorch" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv pip install torch --torch-backend auto        # detect CUDA/ROCm/CPU automatically
+uv add torch --index pytorch=https://download.pytorch.org/whl/cu128
+</code></pre></div>
+<p>For projects that need different builds per platform, use marker-based sources (see the PyTorch guide in the uv docs).</p>
+</section>
+<section class="doc-section" data-section="17-the-cache">
+<h2 id="17-the-cache">17. The cache<a class="anchor" href="#17-the-cache" aria-label="Link to this section">#</a></h2>
+<p>uv keeps one global cache of downloaded and built packages and links files from it into each environment, which is why repeated installs are nearly instant and many venvs use little extra disk.</p>
+<div class="code" data-lang="console"><div class="code-bar"><span class="code-lang">terminal</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-console">$ uv cache dir
+/Users/you/.cache/uv
+$ uv cache size -H              # preview command
+627.0MiB
+$ uv cache prune                # remove unused entries (safe, run any time)
+Pruning cache at: /Users/you/.cache/uv
+Removed 13689 files (423.2MiB)
+$ uv cache prune --ci           # shrink before saving a CI cache
+$ uv cache clean                # wipe everything
+$ uv cache clean requests       # one package
+</code></pre></div>
+<p>Force fresh metadata or builds without wiping the cache:</p>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv sync --refresh                    # revalidate everything
+uv sync --refresh-package mylib
+uv sync --reinstall-package mylib    # rebuild/reinstall one package
+</code></pre></div>
+<p>For local packages whose build depends on extra files (Cython sources, <code>.env</code>, version files), tell uv what to watch:</p>
+<div class="code" data-lang="toml"><div class="code-bar"><span class="code-lang">toml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-ini">[tool.uv]
+cache-keys = [{ file = &quot;pyproject.toml&quot; }, { file = &quot;src/**/*.pyx&quot; }, { git = { commit = true } }]
+</code></pre></div>
+<aside class="callout callout-note">
+<p>After upgrading to uv 0.13, expect some packages to be re-downloaded or rebuilt once: the cache format changed. Multiple uv versions can still share one cache.</p>
+</aside>
+</section>
+<section class="doc-section" data-section="18-cicd-docker-and-pre-commit">
+<h2 id="18-cicd-docker-and-pre-commit">18. CI/CD, Docker and pre-commit<a class="anchor" href="#18-cicd-docker-and-pre-commit" aria-label="Link to this section">#</a></h2>
+<h3 id="github-actions">GitHub Actions<a class="anchor" href="#github-actions" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="yaml"><div class="code-bar"><span class="code-lang">yaml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-yaml">name: CI
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [&quot;3.12&quot;, &quot;3.13&quot;]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: astral-sh/setup-uv@v9
+        with:
+          version: &quot;0.13.1&quot;                # pin uv for reproducibility
+          python-version: ${{ matrix.python-version }}
+          enable-cache: true
+      - run: uv lock --check               # fail if someone forgot to commit uv.lock
+      - run: uv sync --locked --all-extras --dev
+      - run: uv run ruff check
+      - run: uv run ruff format --check
+      - run: uv run pytest
+</code></pre></div>
+<p>Without <code>setup-uv</code>: <code>curl -LsSf https://astral.sh/uv/0.13.1/install.sh | sh</code>, set <code>UV_PYTHON</code> for the matrix, cache <code>~/.cache/uv</code> keyed on <code>hashFiles('uv.lock')</code>, and run <code>uv cache prune --ci</code> before saving. On non-ephemeral self-hosted runners, put <code>UV_CACHE_DIR</code> inside the workspace and clean it after each job.</p>
+<p>GitLab CI: use the <code>ghcr.io/astral-sh/uv:python3.13-trixie-slim</code> image and set <code>UV_CACHE_DIR: .uv-cache</code> with a cache on that path.</p>
+<h3 id="docker">Docker<a class="anchor" href="#docker" aria-label="Link to this section">#</a></h3>
+<p>Copy the static binary from the official image and build in two layers (dependencies, then your code):</p>
+<div class="code" data-lang="dockerfile"><div class="code-bar"><span class="code-lang">dockerfile</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-dockerfile">FROM python:3.13-slim-trixie
+COPY --from=ghcr.io/astral-sh/uv:0.13.1 /uv /uvx /bin/
+
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_NO_DEV=1
+
+WORKDIR /app
+
+# 1) dependencies only: cached until uv.lock / pyproject.toml change
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --locked --no-install-project
+
+# 2) the project itself
+COPY . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --locked --no-editable
+
+ENV PATH=&quot;/app/.venv/bin:$PATH&quot;
+CMD [&quot;weather-cli&quot;]
+</code></pre></div>
+<p>Add <code>.venv</code> to <code>.dockerignore</code>. In workspaces, use <code>--no-install-workspace</code> and <code>--frozen</code> in the first layer. For the smallest runtime images, use a multi-stage build that copies only <code>/app/.venv</code> into a slim base with the same Python. Images with uv preinstalled also exist (<code>ghcr.io/astral-sh/uv:python3.13-trixie-slim</code>, <code>:alpine</code>, <code>:debian</code>…).</p>
+<h3 id="pre-commit">pre-commit<a class="anchor" href="#pre-commit" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="yaml"><div class="code-bar"><span class="code-lang">yaml</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-yaml"># .pre-commit-config.yaml
+repos:
+  - repo: https://github.com/astral-sh/uv-pre-commit
+    rev: 0.13.1
+    hooks:
+      - id: uv-lock                       # keep uv.lock in sync with pyproject.toml
+      - id: uv-export                     # keep requirements.txt in sync with uv.lock
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.17.0
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+</code></pre></div>
+<p>Run it with uv, no global install needed: <code>uvx pre-commit install</code> then <code>uvx pre-commit run --all-files</code>. (Or try <code>prek</code>, a fast Rust reimplementation: <code>uvx prek run --all-files</code>.)</p>
+<h3 id="jupyter">Jupyter<a class="anchor" href="#jupyter" aria-label="Link to this section">#</a></h3>
+<div class="code" data-lang="bash"><div class="code-bar"><span class="code-lang">shell</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-bash">uv add --dev ipykernel
+uv run --with jupyter jupyter lab                 # notebook server using the project env
+uv run ipython kernel install --user --env VIRTUAL_ENV $(pwd)/.venv --name=myproj
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="19-recommended-team-conventions">
+<h2 id="19-recommended-team-conventions">19. Recommended team conventions<a class="anchor" href="#19-recommended-team-conventions" aria-label="Link to this section">#</a></h2>
+<p>A starting point for a team adopting uv:</p>
+<ol>
+<li><strong>Everyone installs uv with the standalone installer</strong> and keeps it current with <code>uv self update</code>. Set <code>required-version = "&gt;=0.13"</code> in <code>[tool.uv]</code>.</li>
+<li><strong>Pick a default Python and pin it.</strong> For broad package compatibility, standardize on <strong>Python 3.13</strong> for now: create projects with <code>uv init -p 3.13</code>, which writes <code>requires-python = "&gt;=3.13"</code> and a <code>.python-version</code> of <code>3.13</code>. Optionally set a personal default with <code>uv python pin --global 3.13</code>. Move to 3.14/3.15 deliberately, when your key dependencies publish wheels.</li>
+<li><strong>New projects:</strong> <code>uv init my-app -p 3.13</code> (apps/CLIs), <code>uv init --lib my-lib -p 3.13</code> (libraries), <code>uv init --no-package -p 3.13</code> (notebooks, simple scripts).</li>
+<li><strong>Commit</strong> <code>pyproject.toml</code>, <code>uv.lock</code>, <code>.python-version</code>. <strong>Ignore</strong> <code>.venv/</code>, <code>dist/</code>, <code>__pycache__/</code>, <code>.ruff_cache/</code>.</li>
+<li><strong>Change dependencies only with <code>uv add</code> / <code>uv remove</code>.</strong> Never <code>uv pip install</code> into a project venv.</li>
+<li><strong>Run everything with <code>uv run</code>.</strong> Activating <code>.venv</code> is fine for interactive work.</li>
+<li><strong>Dev tooling in groups:</strong> <code>dev</code> (pytest, ruff, ipykernel), plus <code>docs</code> / <code>lint</code> if useful.</li>
+<li><strong>Upgrades are explicit and reviewed:</strong> <code>uv lock --upgrade-package X</code> or <code>uv lock --upgrade</code> in a dedicated PR; review the <code>uv.lock</code> diff. Consider <code>exclude-newer = "7 days"</code> as a supply-chain cooldown.</li>
+<li><strong>CI</strong> runs <code>uv lock --check</code>, <code>uv sync --locked</code>, <code>uv run ruff check</code>, <code>uv run ruff format --check</code>, <code>uv run pytest</code> (and optionally <code>uv audit</code>).</li>
+<li><strong>Hand-offs to pip users:</strong> generate <code>requirements.txt</code> with <code>uv export</code> via the pre-commit hook rather than by hand.</li>
+<li><strong>Onboarding a new developer is two commands:</strong> <code>git clone … &amp;&amp; cd repo &amp;&amp; uv sync</code>. Then <code>uv run pytest</code>.</li>
+</ol>
+<p>A starter <code>.gitignore</code> for uv projects:</p>
+<div class="code" data-lang="gitignore"><div class="code-bar"><span class="code-lang">.gitignore</span><button class="copy" type="button" aria-label="Copy code">Copy</button></div><pre><code class="language-plaintext">.venv/
+__pycache__/
+*.py[cod]
+dist/
+build/
+*.egg-info/
+.ruff_cache/
+.pytest_cache/
+.env
+</code></pre></div>
+</section>
+<section class="doc-section" data-section="20-migration-cheat-sheet">
+<h2 id="20-migration-cheat-sheet">20. Migration cheat sheet<a class="anchor" href="#20-migration-cheat-sheet" aria-label="Link to this section">#</a></h2>
+<h3 id="from-pip--venv">From pip + venv<a class="anchor" href="#from-pip--venv" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Old</th>
+<th>uv (project workflow)</th>
+<th>uv (pip-compatible)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>python -m venv .venv</code></td>
+<td><em>(automatic)</em></td>
+<td><code>uv venv</code></td>
+</tr>
+<tr>
+<td><code>source .venv/bin/activate</code></td>
+<td><em>(not needed: <code>uv run</code>)</em></td>
+<td>same</td>
+</tr>
+<tr>
+<td><code>pip install requests</code></td>
+<td><code>uv add requests</code></td>
+<td><code>uv pip install requests</code></td>
+</tr>
+<tr>
+<td><code>pip install -r requirements.txt</code></td>
+<td><code>uv add -r requirements.txt</code></td>
+<td><code>uv pip install -r requirements.txt</code></td>
+</tr>
+<tr>
+<td><code>pip install -e .</code></td>
+<td><em>(automatic for packaged projects)</em></td>
+<td><code>uv pip install -e .</code></td>
+</tr>
+<tr>
+<td><code>pip uninstall requests</code></td>
+<td><code>uv remove requests</code></td>
+<td><code>uv pip uninstall requests</code></td>
+</tr>
+<tr>
+<td><code>pip freeze &gt; requirements.txt</code></td>
+<td><code>uv export -o requirements.txt</code></td>
+<td><code>uv pip freeze &gt; requirements.txt</code></td>
+</tr>
+<tr>
+<td><code>pip list</code> / <code>pip show</code></td>
+<td><code>uv tree</code></td>
+<td><code>uv pip list</code> / <code>uv pip show</code></td>
+</tr>
+<tr>
+<td><code>pip install -U requests</code></td>
+<td><code>uv lock --upgrade-package requests</code></td>
+<td><code>uv pip install -U requests</code></td>
+</tr>
+<tr>
+<td><code>python script.py</code></td>
+<td><code>uv run script.py</code></td>
+<td>same</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="from-pip-tools">From pip-tools<a class="anchor" href="#from-pip-tools" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>pip-tools</th>
+<th>uv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pip-compile requirements.in</code></td>
+<td><code>uv pip compile requirements.in -o requirements.txt</code></td>
+</tr>
+<tr>
+<td><code>pip-compile --upgrade-package X</code></td>
+<td><code>uv pip compile … --upgrade-package X</code></td>
+</tr>
+<tr>
+<td><code>pip-compile --generate-hashes</code></td>
+<td><code>uv pip compile … --generate-hashes</code></td>
+</tr>
+<tr>
+<td><code>pip-sync requirements.txt</code></td>
+<td><code>uv pip sync requirements.txt</code></td>
+</tr>
+<tr>
+<td>one file per platform</td>
+<td><code>uv pip compile --universal</code> (one file for all)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="from-pipx">From pipx<a class="anchor" href="#from-pipx" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>pipx</th>
+<th>uv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pipx run black</code></td>
+<td><code>uvx black</code></td>
+</tr>
+<tr>
+<td><code>pipx install httpie</code></td>
+<td><code>uv tool install httpie</code></td>
+</tr>
+<tr>
+<td><code>pipx inject mkdocs mkdocs-material</code></td>
+<td><code>uv tool install mkdocs --with mkdocs-material</code></td>
+</tr>
+<tr>
+<td><code>pipx upgrade-all</code></td>
+<td><code>uv tool upgrade --all</code></td>
+</tr>
+<tr>
+<td><code>pipx list</code></td>
+<td><code>uv tool list</code></td>
+</tr>
+<tr>
+<td><code>pipx ensurepath</code></td>
+<td><code>uv tool update-shell</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="from-pyenv">From pyenv<a class="anchor" href="#from-pyenv" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>pyenv</th>
+<th>uv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pyenv install 3.13</code></td>
+<td><code>uv python install 3.13</code></td>
+</tr>
+<tr>
+<td><code>pyenv versions</code></td>
+<td><code>uv python list --only-installed</code></td>
+</tr>
+<tr>
+<td><code>pyenv local 3.13</code></td>
+<td><code>uv python pin 3.13</code></td>
+</tr>
+<tr>
+<td><code>pyenv global 3.13</code></td>
+<td><code>uv python pin --global 3.13</code> (for uv) / <code>uv python install 3.13 --default</code> (for <code>python</code> on PATH)</td>
+</tr>
+<tr>
+<td><code>pyenv which python</code></td>
+<td><code>uv python find</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="from-poetry">From Poetry<a class="anchor" href="#from-poetry" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Poetry</th>
+<th>uv</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>poetry new</code> / <code>poetry init</code></td>
+<td><code>uv init</code> / <code>uv init --lib</code></td>
+</tr>
+<tr>
+<td><code>poetry add requests</code></td>
+<td><code>uv add requests</code></td>
+</tr>
+<tr>
+<td><code>poetry add --group dev pytest</code></td>
+<td><code>uv add --dev pytest</code></td>
+</tr>
+<tr>
+<td><code>poetry remove</code></td>
+<td><code>uv remove</code></td>
+</tr>
+<tr>
+<td><code>poetry install</code></td>
+<td><code>uv sync</code></td>
+</tr>
+<tr>
+<td><code>poetry lock</code></td>
+<td><code>uv lock</code></td>
+</tr>
+<tr>
+<td><code>poetry update</code></td>
+<td><code>uv lock --upgrade</code></td>
+</tr>
+<tr>
+<td><code>poetry run pytest</code></td>
+<td><code>uv run pytest</code></td>
+</tr>
+<tr>
+<td><code>poetry shell</code></td>
+<td><code>source .venv/bin/activate</code></td>
+</tr>
+<tr>
+<td><code>poetry show --tree</code></td>
+<td><code>uv tree</code></td>
+</tr>
+<tr>
+<td><code>poetry version minor</code></td>
+<td><code>uv version --bump minor</code></td>
+</tr>
+<tr>
+<td><code>poetry build</code> / <code>poetry publish</code></td>
+<td><code>uv build</code> / <code>uv publish</code></td>
+</tr>
+<tr>
+<td><code>poetry export -f requirements.txt</code></td>
+<td><code>uv export</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>To convert an existing Poetry project automatically: <code>uvx migrate-to-uv</code> (a community tool) rewrites <code>[tool.poetry]</code> into standard <code>[project]</code> metadata and dependency groups.</p>
+<h3 id="from-conda">From Conda<a class="anchor" href="#from-conda" aria-label="Link to this section">#</a></h3>
+<p>uv manages <strong>PyPI</strong> packages and CPython builds; it does not install non-Python system libraries the way Conda does. For most pure-Python and wheel-based scientific stacks (NumPy, pandas, scikit-learn, PyTorch), <code>uv init -p 3.13 &amp;&amp; uv add numpy pandas scikit-learn</code> is faster and gives you a cross-platform lockfile. If you rely on Conda-only packages (some GIS, CUDA toolkits, R), keep Conda for those and either use <code>uv pip</code> inside the activated Conda env (uv detects <code>CONDA_PREFIX</code>) or keep separate environments.</p>
+</section>
+<section class="doc-section" data-section="21-gotchas-and-troubleshooting">
+<h2 id="21-gotchas-and-troubleshooting">21. Gotchas and troubleshooting<a class="anchor" href="#21-gotchas-and-troubleshooting" aria-label="Link to this section">#</a></h2>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Symptom</th>
+<th>Cause / fix</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv init</code> created <code>src/…/__init__.py</code>, not <code>main.py</code></td>
+<td>Packaged layout has been the default since 0.12. Use <code>uv init --no-package</code> for the flat layout.</td>
+</tr>
+<tr>
+<td>uv downloaded Python 3.15 when you expected 3.13</td>
+<td>3.15 has been the default since 0.13. Pin with <code>uv python pin 3.13</code> or create projects with <code>-p 3.13</code>.</td>
+</tr>
+<tr>
+<td>A package I installed disappeared</td>
+<td><code>uv sync</code> is exact: anything not in the lockfile or the selected groups is removed. Use <code>uv add</code>, or <code>--inexact</code>.</td>
+</tr>
+<tr>
+<td><code>python -m pip: No module named pip</code></td>
+<td>uv venvs don't include pip. Use <code>uv pip …</code>, or <code>uv venv --seed</code>.</td>
+</tr>
+<tr>
+<td><code>uv venv</code> refuses to overwrite <code>.venv</code></td>
+<td>Since 0.10 you must pass <code>--clear</code> (and <code>--force</code> for non-venv directories).</td>
+</tr>
+<tr>
+<td><code>warning: VIRTUAL_ENV=… does not match the project environment path</code></td>
+<td>You have another venv activated. <code>deactivate</code>, or pass <code>--active</code> to use it on purpose.</td>
+</tr>
+<tr>
+<td><code>uv run script.py</code> used the wrong project</td>
+<td>Since 0.12, uv discovers the project from the script's directory. Use <code>--project .</code> to override.</td>
+</tr>
+<tr>
+<td>"self-dependencies are not permitted"</td>
+<td>You ran <code>uv add &lt;your-own-project&gt;</code>. Use <code>--dev</code>/<code>--optional</code>, or rename the project if it shadows a PyPI name.</td>
+</tr>
+<tr>
+<td>Lock fails with "No solution found"</td>
+<td>Read the explanation tree. Loosen a constraint, add an override, or declare <code>conflicts</code> for mutually exclusive extras/groups.</td>
+</tr>
+<tr>
+<td><code>uv format</code> / <code>check</code> / <code>audit</code> print "experimental"</td>
+<td>They're preview commands. Add <code>--preview-features format-command</code> (etc.) or <code>preview-features = [...]</code> in config.</td>
+</tr>
+<tr>
+<td>Certificate verify failed</td>
+<td>Use <code>--system-certs</code> / <code>UV_SYSTEM_CERTS=1</code> (the old <code>--native-tls</code> / <code>UV_NATIVE_TLS</code> names are deprecated) or <code>SSL_CERT_FILE</code>.</td>
+</tr>
+<tr>
+<td><code>Failed to hardlink files; falling back to full copy</code></td>
+<td>Cache and project are on different filesystems. Set <code>UV_LINK_MODE=copy</code> to silence it.</td>
+</tr>
+<tr>
+<td><code>uvx tool</code> runs an old version</td>
+<td><code>uvx</code> reuses its cached environment. Use <code>uvx tool@latest</code> or <code>--refresh</code>.</td>
+</tr>
+<tr>
+<td><code>pytest</code> via <code>uvx</code> can't import my package</td>
+<td><code>uvx</code> runs in isolation. Use <code>uv run pytest</code> with pytest in the dev group.</td>
+</tr>
+<tr>
+<td>Build works locally, fails for others</td>
+<td>You rely on <code>tool.uv.sources</code>. Test with <code>uv build --no-sources</code>.</td>
+</tr>
+<tr>
+<td>Need to see what uv is doing</td>
+<td>Add <code>-v</code> / <code>-vv</code>, or <code>RUST_LOG=uv=debug</code>.</td>
+</tr>
+<tr>
+<td>Stale or corrupted cache</td>
+<td><code>uv cache clean &lt;pkg&gt;</code> or <code>uv sync --refresh --reinstall</code>.</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="doc-section" data-section="22-complete-command-reference">
+<h2 id="22-complete-command-reference">22. Complete command reference<a class="anchor" href="#22-complete-command-reference" aria-label="Link to this section">#</a></h2>
+<p>Every command and subcommand in uv 0.13.1, with the flags you'll actually use. Run <code>uv help &lt;command&gt;</code> for the exhaustive list.</p>
+<h3 id="global-options-work-with-every-command">Global options (work with every command)<a class="anchor" href="#global-options-work-with-every-command" aria-label="Link to this section">#</a></h3>
+<p><code>-q/--quiet</code>, <code>-v/--verbose</code>, <code>--color auto|always|never</code>, <code>--offline</code>, <code>--no-progress</code>, <code>--directory DIR</code> (cd first), <code>--project DIR</code> (find the project here), <code>--config-file</code>, <code>--no-config</code>, <code>--no-cache</code> / <code>--cache-dir</code>, <code>--managed-python</code> / <code>--no-managed-python</code>, <code>--no-python-downloads</code>, <code>--system-certs</code>, <code>--allow-insecure-host</code>, <code>--preview</code> / <code>--preview-features</code>, <code>-h/--help</code>, <code>-V/--version</code>.</p>
+<p>Shared groups of options appear on many commands:</p>
+<ul>
+<li><strong>Resolver:</strong> <code>-U/--upgrade</code>, <code>-P/--upgrade-package</code>, <code>--upgrade-group</code>, <code>--resolution highest|lowest|lowest-direct</code>, <code>--prerelease if-necessary|allow|disallow|explicit</code>, <code>--fork-strategy</code>, <code>--exclude-newer</code>, <code>--exclude-newer-package</code>, <code>--no-sources</code></li>
+<li><strong>Index:</strong> <code>--index</code>, <code>--default-index</code>, <code>--index-url</code>, <code>--extra-index-url</code>, <code>--find-links</code>, <code>--no-index</code>, <code>--index-strategy</code>, <code>--keyring-provider</code></li>
+<li><strong>Installer:</strong> <code>--reinstall</code>, <code>--reinstall-package</code>, <code>--link-mode</code>, <code>--compile-bytecode</code></li>
+<li><strong>Build:</strong> <code>-C/--config-setting</code>, <code>--no-build-isolation</code>, <code>--no-build</code>, <code>--no-binary</code>, <code>--require-build-hashes</code></li>
+<li><strong>Cache:</strong> <code>--refresh</code>, <code>--refresh-package</code></li>
+</ul>
+<h3 id="project-commands">Project commands<a class="anchor" href="#project-commands" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+<th>Key options</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv init [PATH]</code></td>
+<td>Create a project or script</td>
+<td><code>--app</code>, <code>--lib</code>, <code>--package</code>, <code>--no-package</code>, <code>--bare</code>, <code>--script</code>, <code>-p/--python</code>, <code>--build-backend</code>, <code>--vcs git\|none</code>, <code>--name</code>, <code>--description</code>, <code>--author-from</code>, <code>--no-readme</code>, <code>--no-pin-python</code>, <code>--no-workspace</code></td>
+</tr>
+<tr>
+<td><code>uv add PKG…</code></td>
+<td>Add dependencies</td>
+<td><code>--dev</code>, <code>--group</code>, <code>--optional</code>, <code>-r/--requirements</code>, <code>-c/--constraints</code>, <code>--editable</code>, <code>--bounds</code>, <code>--tag/--branch/--rev</code>, <code>--extra</code>, <code>-m/--marker</code>, <code>--index</code>, <code>--script</code>, <code>--package</code>, <code>--no-sync</code>, <code>--frozen</code>, <code>--locked</code>, <code>--raw</code>, <code>--lfs</code></td>
+</tr>
+<tr>
+<td><code>uv remove PKG…</code></td>
+<td>Remove dependencies</td>
+<td><code>--dev</code>, <code>--group</code>, <code>--optional</code>, <code>--script</code>, <code>--package</code>, <code>--no-sync</code></td>
+</tr>
+<tr>
+<td><code>uv version [VALUE]</code></td>
+<td>Read/set/bump the project version</td>
+<td><code>--bump major\|minor\|patch\|stable\|alpha\|beta\|rc\|post\|dev</code>, <code>--dry-run</code>, <code>--short</code>, <code>--output-format json</code>, <code>--package</code>, <code>--frozen</code></td>
+</tr>
+<tr>
+<td><code>uv sync</code></td>
+<td>Make <code>.venv</code> match the lockfile</td>
+<td><code>--locked</code>, <code>--frozen</code>, <code>--no-dev</code>, <code>--only-dev</code>, <code>--group</code>, <code>--all-groups</code>, <code>--no-default-groups</code>, <code>--extra</code>, <code>--all-extras</code>, <code>--inexact</code>, <code>--no-install-project</code>, <code>--no-install-workspace</code>, <code>--no-editable</code>, <code>--all-packages</code>, <code>--package</code>, <code>--script</code>, <code>--active</code>, <code>--check</code>, <code>--dry-run</code>, <code>--output-format json</code></td>
+</tr>
+<tr>
+<td><code>uv lock</code></td>
+<td>Create/update <code>uv.lock</code></td>
+<td><code>--check</code>, <code>--check-exists</code>, <code>--dry-run</code>, <code>--upgrade</code>, <code>--upgrade-package</code>, <code>--script</code></td>
+</tr>
+<tr>
+<td><code>uv run CMD</code></td>
+<td>Run in the project environment</td>
+<td><code>--with</code>, <code>--with-editable</code>, <code>--with-requirements</code>, <code>-m/--module</code>, <code>-s/--script</code>, <code>--env-file</code>, <code>--isolated</code>, <code>--no-project</code>, <code>--no-sync</code>, <code>--exact</code>, <code>--locked</code>, <code>--frozen</code>, <code>--package</code>, <code>--all-packages</code>, <code>--active</code>, groups/extras flags, <code>-p/--python</code></td>
+</tr>
+<tr>
+<td><code>uv export</code></td>
+<td>Lockfile → other formats</td>
+<td><code>--format requirements.txt\|pylock.toml\|cyclonedx1.5</code>, <code>-o</code>, <code>--no-hashes</code>, <code>--no-dev</code>, <code>--all-groups</code>, <code>--all-extras</code>, <code>--no-emit-project</code>, <code>--no-emit-workspace</code>, <code>--no-emit-package</code>, <code>--no-header</code>, <code>--no-annotate</code>, <code>--prune</code>, <code>--package</code>, <code>--all-packages</code>, <code>--script</code>, <code>--frozen</code></td>
+</tr>
+<tr>
+<td><code>uv tree</code></td>
+<td>Show the dependency tree</td>
+<td><code>--depth</code>, <code>--outdated</code>, <code>--invert</code>, <code>--package</code>, <code>--prune</code>, <code>--universal</code>, <code>--show-sizes</code>, <code>--no-dedupe</code>, <code>--format json</code>, <code>--script</code>, groups flags</td>
+</tr>
+<tr>
+<td><code>uv format</code> <span class="badge badge-preview">preview</span></td>
+<td>Format code with Ruff</td>
+<td><code>--check</code>, <code>--diff</code>, <code>--version</code>, <code>--no-project</code>, <code>-- &lt;ruff args&gt;</code></td>
+</tr>
+<tr>
+<td><code>uv check</code> <span class="badge badge-preview">preview</span></td>
+<td>Type-check with ty</td>
+<td><code>--fix</code>, <code>--all-packages</code>, <code>--package</code>, <code>--script</code>, <code>--ty-version</code>, groups/extras flags</td>
+</tr>
+<tr>
+<td><code>uv audit</code> <span class="badge badge-preview">preview</span></td>
+<td>Scan dependencies for vulnerabilities (OSV)</td>
+<td><code>--output-format text\|json\|sarif</code>, <code>--ignore</code>, <code>--ignore-until-fixed</code>, <code>--script</code>, <code>--no-dev</code>, <code>--python-version</code>, <code>--python-platform</code></td>
+</tr>
+<tr>
+<td><code>uv build [SRC]</code></td>
+<td>Build sdist + wheel</td>
+<td><code>--sdist</code>, <code>--wheel</code>, <code>-o/--out-dir</code>, <code>--package</code>, <code>--all-packages</code>, <code>--no-sources</code>, <code>--clear</code>, <code>-b/--build-constraints</code>, <code>--require-hashes</code></td>
+</tr>
+<tr>
+<td><code>uv publish [FILES]</code></td>
+<td>Upload to an index</td>
+<td><code>--index</code>, <code>-t/--token</code>, <code>-u/--username</code>, <code>-p/--password</code>, <code>--publish-url</code>, <code>--check-url</code>, <code>--trusted-publishing</code>, <code>--dry-run</code>, <code>--no-attestations</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="workspace">Workspace<a class="anchor" href="#workspace" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv workspace list [--paths]</code></td>
+<td>List members (<code>--scripts</code> lists inline-metadata scripts; preview)</td>
+</tr>
+<tr>
+<td><code>uv workspace dir [--package NAME]</code></td>
+<td>Path to the workspace root or a member</td>
+</tr>
+<tr>
+<td><code>uv workspace metadata</code> <span class="badge badge-preview">preview</span></td>
+<td>JSON metadata about the workspace (<code>--script</code>, <code>--sync</code>)</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="python">Python<a class="anchor" href="#python" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv python list [REQ]</code></td>
+<td>Installed and downloadable versions (<code>--only-installed</code>, <code>--only-downloads</code>, <code>--all-versions</code>, <code>--all-platforms</code>, <code>--show-urls</code>, <code>--output-format json</code>)</td>
+</tr>
+<tr>
+<td><code>uv python install [VER…]</code></td>
+<td>Install (<code>--default</code>, <code>--reinstall</code>, <code>-U/--upgrade</code>, <code>--force</code>, <code>--no-bin</code>, <code>--mirror</code>, <code>--install-dir</code>, <code>--compile-bytecode</code>)</td>
+</tr>
+<tr>
+<td><code>uv python upgrade [VER…]</code></td>
+<td>Move to the latest patch release</td>
+</tr>
+<tr>
+<td><code>uv python find [REQ]</code></td>
+<td>Print the interpreter path (<code>--system</code>, <code>--show-version</code>, <code>--script</code>)</td>
+</tr>
+<tr>
+<td><code>uv python pin [REQ]</code></td>
+<td>Write <code>.python-version</code> (<code>--global</code>, <code>--rm</code>, <code>--resolved</code>)</td>
+</tr>
+<tr>
+<td><code>uv python dir [--bin]</code></td>
+<td>Where Pythons/executables are installed</td>
+</tr>
+<tr>
+<td><code>uv python uninstall VER… / --all</code></td>
+<td>Remove managed versions</td>
+</tr>
+<tr>
+<td><code>uv python update-shell</code></td>
+<td>Add the executable dir to <code>PATH</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="tools">Tools<a class="anchor" href="#tools" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uvx</code> / <code>uv tool run CMD</code></td>
+<td>Run a tool in a temporary env (<code>--from</code>, <code>--with</code>, <code>--python</code>, <code>--isolated</code>, <code>@version</code>, <code>@latest</code>)</td>
+</tr>
+<tr>
+<td><code>uv tool install PKG</code></td>
+<td>Install persistently (<code>--with</code>, <code>--with-executables-from</code>, <code>-e/--editable</code>, <code>--force</code>, <code>--python</code>)</td>
+</tr>
+<tr>
+<td><code>uv tool upgrade NAME… / --all</code></td>
+<td>Upgrade within the original constraints</td>
+</tr>
+<tr>
+<td><code>uv tool list</code></td>
+<td>List tools (<code>--show-paths</code>, <code>--show-version-specifiers</code>, <code>--show-with</code>, <code>--show-python</code>, <code>--outdated</code>)</td>
+</tr>
+<tr>
+<td><code>uv tool audit NAME… / --all</code> <span class="badge badge-preview">preview</span></td>
+<td>Vulnerability scan of installed tools</td>
+</tr>
+<tr>
+<td><code>uv tool uninstall NAME…</code></td>
+<td>Remove a tool</td>
+</tr>
+<tr>
+<td><code>uv tool update-shell</code></td>
+<td>Add the tool bin dir to <code>PATH</code></td>
+</tr>
+<tr>
+<td><code>uv tool dir [--bin]</code></td>
+<td>Where tools live</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="pip-interface">pip interface<a class="anchor" href="#pip-interface" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv venv [PATH]</code></td>
+<td>Create a venv (<code>-p</code>, <code>--seed</code>, <code>--clear</code>, <code>--prompt</code>, <code>--system-site-packages</code>, <code>--relocatable</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip install</code></td>
+<td>Install (<code>-r</code>, <code>-e</code>, <code>-c</code>, <code>--overrides</code>, <code>--group</code>, <code>--extra</code>, <code>--system</code>, <code>--target</code>, <code>--prefix</code>, <code>--no-deps</code>, <code>--require-hashes</code>, <code>--torch-backend</code>, <code>--dry-run</code>, <code>--exact</code>, <code>--strict</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip uninstall</code></td>
+<td>Uninstall (<code>-r</code>, <code>--system</code>, <code>--dry-run</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip compile</code></td>
+<td>requirements.in/pyproject → requirements.txt or pylock.toml (<code>-o</code>, <code>--universal</code>, <code>--generate-hashes</code>, <code>--extra</code>, <code>--group</code>, <code>--python-version</code>, <code>--python-platform</code>, <code>--upgrade-package</code>, <code>--no-annotate</code>, <code>--no-header</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip sync</code></td>
+<td>Make an env exactly match a file</td>
+</tr>
+<tr>
+<td><code>uv pip freeze</code></td>
+<td>Installed packages in requirements format</td>
+</tr>
+<tr>
+<td><code>uv pip list</code></td>
+<td>Table of installed packages (<code>--outdated</code>, <code>--format json</code>, <code>-e</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip show</code></td>
+<td>Package details (<code>-f/--files</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip tree</code></td>
+<td>Dependency tree of an environment (<code>--depth</code>, <code>--invert</code>, <code>--outdated</code>)</td>
+</tr>
+<tr>
+<td><code>uv pip check</code></td>
+<td>Verify dependency compatibility</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="utility">Utility<a class="anchor" href="#utility" aria-label="Link to this section">#</a></h3>
+<div class="table-wrap"><table>
+<thead>
+<tr>
+<th>Command</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>uv auth login/logout/token/dir</code></td>
+<td>Manage stored credentials</td>
+</tr>
+<tr>
+<td><code>uv cache dir / size / prune [--ci] / clean [PKG]</code></td>
+<td>Manage the cache (<code>size</code> is preview)</td>
+</tr>
+<tr>
+<td><code>uv self update [VERSION] / version</code></td>
+<td>Update uv / show the version (<code>--dry-run</code>, <code>--token</code>, <code>--short</code>)</td>
+</tr>
+<tr>
+<td><code>uv generate-shell-completion SHELL</code></td>
+<td>Completion scripts</td>
+</tr>
+<tr>
+<td><code>uv help [COMMAND]</code></td>
+<td>Detailed help</td>
+</tr>
+</tbody>
+</table></div>
+</section>
+<section class="doc-section" data-section="23-what-changed-recently-010--013">
+<h2 id="23-what-changed-recently-010--013">23. What changed recently (0.10 → 0.13)<a class="anchor" href="#23-what-changed-recently-010--013" aria-label="Link to this section">#</a></h2>
+<p>If you learned uv in 2025, these are the changes most likely to surprise you:</p>
+<p><strong>uv 0.13 (October 2026)</strong>
+- Python <strong>3.15</strong> is the default downloaded version.
+- New cache format (expect one-time re-downloads/rebuilds).
+- <code>--require-hashes</code> inside included constraints files is now honored; editable requirements in constraints files are rejected.
+- Native ARM64 Python preferred on Windows ARM.
+- Venvs for Python ≥ 3.10 no longer get the <code>_virtualenv.pth</code> distutils patch (faster startup).
+- Option values like <code>-c "a.txt b.txt"</code> are now one path. Repeat the flag for multiple files.</p>
+<p><strong>uv 0.12 (July 2026)</strong>
+- <code>uv init</code> creates <strong>packaged <code>src/</code> projects with <code>uv_build</code></strong> by default.
+- Pre-release handling: stable first, then fall back to pre-releases automatically (<code>if-necessary</code>).
+- <code>uv run path/to/script.py</code> discovers the project from the script's location.
+- <code>--require-hashes</code> in <code>requirements.txt</code> is respected; MD5-only hashes rejected.
+- <code>uv venv</code> requires <code>--force</code> to clear non-venv directories.
+- <code>uv check</code> (ty) gained <code>--fix</code>.</p>
+<p><strong>uv 0.11 (March 2026)</strong>
+- New networking/TLS stack. <code>--native-tls</code> became <code>--system-certs</code> (<code>UV_SYSTEM_CERTS</code>).
+- <code>uv check</code> (ty type checking) arrived as a preview command during the 0.11 series and gained <code>--script</code>, <code>--package</code> and <code>--all-packages</code> before 0.12. <code>uv audit</code> gained JSON/SARIF output and <code>--ignore</code> options.</p>
+<p><strong>uv 0.10 (February 2026)</strong>
+- <code>uv audit</code> first appeared (preview) late in the 0.10 series.
+- <code>uv venv</code> requires <code>--clear</code> to replace an existing environment.
+- Stabilized: <code>uv python upgrade</code>, <code>uv python install --upgrade</code>, <code>uv add --bounds</code>, <code>uv workspace list/dir</code>, <code>extra-build-dependencies</code>.
+- Only one index may set <code>default = true</code>; <code>explicit</code> indexes must be named.
+- <code>uv format</code> moved to Ruff 0.15.</p>
+
+<h3 id="further-reading">Further reading<a class="anchor" href="#further-reading" aria-label="Link to this section">#</a></h3>
+<ul>
+<li>uv documentation: <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">https://docs.astral.sh/uv/</a></li>
+<li>uv changelog: <a href="https://github.com/astral-sh/uv/blob/main/CHANGELOG.md" target="_blank" rel="noopener">https://github.com/astral-sh/uv/blob/main/CHANGELOG.md</a></li>
+<li>Ruff documentation: <a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">https://docs.astral.sh/ruff/</a></li>
+<li>ty documentation: <a href="https://docs.astral.sh/ty/" target="_blank" rel="noopener">https://docs.astral.sh/ty/</a></li>
+<li>Python packaging guide: <a href="https://packaging.python.org/" target="_blank" rel="noopener">https://packaging.python.org/</a></li>
+<li>PEP 723 (inline script metadata), PEP 735 (dependency groups), PEP 751 (<code>pylock.toml</code>)</li>
+</ul>
+</section>
+    </article>
+
+    <footer class="footer">
+      <p>Tested with uv 0.13.1 and Ruff 0.17.0, October 2026. uv and Ruff are projects by <a href="https://astral.sh" target="_blank" rel="noopener">Astral</a>; this is an independent community guide.</p>
+      <p><a href="#top">Back to top ↑</a></p>
+    </footer>
+  </main>
+
+  <aside class="onpage" aria-label="On this page">
+    <div class="onpage-inner">
+      <p class="nav-label">On this page</p>
+      <ul id="onpageList"></ul>
+    </div>
+  </aside>
+</div>
+
+<div class="search-overlay" id="searchOverlay" hidden>
+  <div class="search-dialog" role="dialog" aria-modal="true" aria-labelledby="searchLabel">
+    <label class="search-field" for="searchInput">
+      <span class="sr-only" id="searchLabel">Search the guide</span>
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2" fill="none"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      <input id="searchInput" type="search" autocomplete="off" spellcheck="false" placeholder="Try “export”, “pin”, “publish”, “uv add --dev”…">
+      <button class="kbd kbd-btn" id="searchClose" type="button">Esc</button>
+    </label>
+    <ul class="search-results" id="searchResults" role="listbox" aria-label="Search results"></ul>
+    <p class="search-hint">↑ ↓ to move · Enter to open · Esc to close</p>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script src="assets/js/search-index.js"></script>
+<script src="assets/js/site.js"></script>
+</body>
+</html>
