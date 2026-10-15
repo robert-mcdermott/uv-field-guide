@@ -7,6 +7,7 @@ Written and tested against **uv 0.13.1** and **Ruff 0.17.0** (October 2026).
 |---|---|
 | [`uv-guide.md`](uv-guide.md) | **The guide.** Single source of truth for all content; readable directly on GitHub. |
 | [`docs/`](docs/) | **The website** (generated from `uv-guide.md`): menu, search, copy buttons, dark mode. GitHub Pages serves this folder. |
+| [`skills/uv/`](skills/uv/SKILL.md) | **Agent skill** for AI coding assistants (Claude Code and others): `SKILL.md` plus reference files. Install notes in [`skills/README.md`](skills/README.md). |
 | [`tools/`](tools/) | `build_site.py` and the HTML/CSS/JS templates that turn `uv-guide.md` into `docs/`. |
 | [`LICENSE`](LICENSE) | Apache License 2.0 |
 
@@ -25,7 +26,7 @@ Written and tested against **uv 0.13.1** and **Ruff 0.17.0** (October 2026).
    uv run --no-project --with markdown tools/build_site.py
    ```
 
-3. Commit both `uv-guide.md` and `docs/`.
+3. Commit both `uv-guide.md` and `docs/`. (The build also copies `skills/` into `docs/skills/` so the website can link to the skill.)
 
 Never edit `docs/index.html` by hand; it is overwritten on every build.
 

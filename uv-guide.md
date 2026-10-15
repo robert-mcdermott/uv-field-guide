@@ -4,6 +4,8 @@
 
 > Written for **uv 0.13.1** and **Ruff 0.17.0** (October 2026). Every command in this guide was run against those versions. uv moves quickly, so if something looks different on your machine, run `uv self version` and check the [uv changelog](https://github.com/astral-sh/uv/blob/main/CHANGELOG.md).
 
+> **Using an AI coding agent?** This repository also includes a companion **agent skill** for uv: [`skills/uv/SKILL.md`](skills/uv/SKILL.md). It condenses this guide into decision rules, current defaults and gotchas that override an agent's older training data, with reference files for the details. Drop the `skills/uv/` folder into your agent's skills directory (for Claude Code: `~/.claude/skills/uv/` or `.claude/skills/uv/` in a repo).
+
 ---
 
 ## Table of contents
@@ -1712,7 +1714,8 @@ A starting point for a team adopting uv:
 8. **Upgrades are explicit and reviewed:** `uv lock --upgrade-package X` or `uv lock --upgrade` in a dedicated PR; review the `uv.lock` diff. Consider `exclude-newer = "7 days"` as a supply-chain cooldown.
 9. **CI** runs `uv lock --check`, `uv sync --locked`, `uv run ruff check`, `uv run ruff format --check`, `uv run pytest` (and optionally `uv audit`).
 10. **Hand-offs to pip users:** generate `requirements.txt` with `uv export` via the pre-commit hook rather than by hand.
-11. **Onboarding a new developer is two commands:** `git clone … && cd repo && uv sync`. Then `uv run pytest`.
+11. **AI coding agents:** give them the uv agent skill ([`skills/uv/SKILL.md`](skills/uv/SKILL.md)) so they follow the same rules (no `pip install` into project venvs, `uv run` for everything, `--locked` in CI).
+12. **Onboarding a new developer is two commands:** `git clone … && cd repo && uv sync`. Then `uv run pytest`.
 
 A starter `.gitignore` for uv projects:
 
@@ -1958,6 +1961,8 @@ If you learned uv in 2025, these are the changes most likely to surprise you:
 ---
 
 ### Further reading
+
+- uv agent skill for AI coding assistants (companion to this guide): [`skills/uv/SKILL.md`](skills/uv/SKILL.md)
 
 - uv documentation: <https://docs.astral.sh/uv/>
 - uv changelog: <https://github.com/astral-sh/uv/blob/main/CHANGELOG.md>

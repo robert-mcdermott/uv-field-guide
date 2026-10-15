@@ -54,6 +54,7 @@
         <p class="nav-label">Downloads</p>
         <ul>
           <li><a href="uv-guide.md">Markdown version</a></li>
+          <li><a href="skills/uv/SKILL.md">uv agent skill (SKILL.md)</a></li>
           <li><a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">Official uv docs</a></li>
           <li><a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">Official Ruff docs</a></li>
         </ul>
@@ -68,6 +69,7 @@
         <p class="eyebrow">Team handbook · updated October 2026</p>
         <h1>The uv Field Guide</h1>
         <p class="lede">Everything a Python team needs to move onto <strong>uv</strong>: installing Python, starting projects, managing dependencies, running scripts and tools, staying compatible with plain <code>pip</code>, and publishing to PyPI. Includes a little <strong>Ruff</strong>. Every example was run on the versions in the header.</p>
+        <p class="hero-agent">Using an AI coding agent? Give it the companion <a href="skills/uv/SKILL.md">uv agent skill</a> (<code>SKILL.md</code> plus reference files) so it follows the same current rules.</p>
         <div class="hero-meta">
           <span class="chip">Replaces pip · pip-tools · pipx · pyenv · virtualenv · twine</span>
           <span class="chip">Universal lockfile</span>
@@ -1780,6 +1782,7 @@ uv run ipython kernel install --user --env VIRTUAL_ENV $(pwd)/.venv --name=mypro
 <li><strong>Upgrades are explicit and reviewed:</strong> <code>uv lock --upgrade-package X</code> or <code>uv lock --upgrade</code> in a dedicated PR; review the <code>uv.lock</code> diff. Consider <code>exclude-newer = "7 days"</code> as a supply-chain cooldown.</li>
 <li><strong>CI</strong> runs <code>uv lock --check</code>, <code>uv sync --locked</code>, <code>uv run ruff check</code>, <code>uv run ruff format --check</code>, <code>uv run pytest</code> (and optionally <code>uv audit</code>).</li>
 <li><strong>Hand-offs to pip users:</strong> generate <code>requirements.txt</code> with <code>uv export</code> via the pre-commit hook rather than by hand.</li>
+<li><strong>AI coding agents:</strong> give them the uv agent skill (<a href="skills/uv/SKILL.md"><code>skills/uv/SKILL.md</code></a>) so they follow the same rules (no <code>pip install</code> into project venvs, <code>uv run</code> for everything, <code>--locked</code> in CI).</li>
 <li><strong>Onboarding a new developer is two commands:</strong> <code>git clone … &amp;&amp; cd repo &amp;&amp; uv sync</code>. Then <code>uv run pytest</code>.</li>
 </ol>
 <p>A starter <code>.gitignore</code> for uv projects:</p>
@@ -2419,7 +2422,12 @@ build/
 
 <h3 id="further-reading">Further reading<a class="anchor" href="#further-reading" aria-label="Link to this section">#</a></h3>
 <ul>
-<li>uv documentation: <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">https://docs.astral.sh/uv/</a></li>
+<li>
+<p>uv agent skill for AI coding assistants (companion to this guide): <a href="skills/uv/SKILL.md"><code>skills/uv/SKILL.md</code></a></p>
+</li>
+<li>
+<p>uv documentation: <a href="https://docs.astral.sh/uv/" target="_blank" rel="noopener">https://docs.astral.sh/uv/</a></p>
+</li>
 <li>uv changelog: <a href="https://github.com/astral-sh/uv/blob/main/CHANGELOG.md" target="_blank" rel="noopener">https://github.com/astral-sh/uv/blob/main/CHANGELOG.md</a></li>
 <li>Ruff documentation: <a href="https://docs.astral.sh/ruff/" target="_blank" rel="noopener">https://docs.astral.sh/ruff/</a></li>
 <li>ty documentation: <a href="https://docs.astral.sh/ty/" target="_blank" rel="noopener">https://docs.astral.sh/ty/</a></li>

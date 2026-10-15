@@ -315,6 +315,8 @@ a:hover { text-decoration-thickness: 2px; }
 }
 .lede { margin: 0 0 18px; font-size: 1.08rem; color: var(--muted); max-width: 56ch; }
 .lede strong { color: var(--ink); }
+.hero-agent { margin: 0 0 16px; font-size: 0.95rem; color: var(--muted); max-width: 56ch; }
+.hero-agent code { font-family: var(--f-mono); font-size: 0.86em; padding: 0.1em 0.35em; border-radius: 5px; background: var(--inline-code-bg); color: var(--ink); }
 .hero-meta { display: flex; flex-wrap: wrap; gap: 8px; }
 .hero-meta .chip { white-space: normal; }
 

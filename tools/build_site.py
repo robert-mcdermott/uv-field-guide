@@ -216,6 +216,10 @@ def main() -> None:
     )
     (OUT / ".nojekyll").write_text("")
     shutil.copy(MD, OUT / "uv-guide.md")
+    # Publish the agent skill alongside the site so the website can link to it.
+    skills = ROOT.parent / "skills"
+    if skills.exists():
+        shutil.copytree(skills, OUT / "skills", dirs_exist_ok=True)
 
     page = (SRC / "page.html").read_text()
     page = (
