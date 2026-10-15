@@ -13,7 +13,7 @@ Written and tested against **uv 0.13.1** and **Ruff 0.17.0** (October 2026).
 
 1. Push this repository to GitHub.
 2. **Settings → Pages → Build and deployment**: Source *Deploy from a branch*, branch `main`, folder **`/docs`**. Save.
-3. The site appears at `https://<user-or-org>.github.io/uv-field-guide/` after a minute or two.
+3. The site appears at `https://robert-mcdermott.github.io/uv-field-guide/` after a minute or two.
 
 ## Edit and rebuild
 
