@@ -60,17 +60,16 @@
         <div class="terminal-bar"><span></span><span></span><span></span><em>quick start</em></div>
 <pre class="terminal-body"><span class="t-c"># install uv (macOS / Linux)</span>
 <span class="t-p">$</span> curl -LsSf https://astral.sh/uv/install.sh | sh
-<span class="t-c"># create an app pinned to Python 3.13</span>
-<span class="t-p">$</span> uv init weather-cli -p 3.13 &amp;&amp; cd weather-cli
+<span class="t-c"># create an app pinned to Python 3.13 and run it</span>
+<span class="t-p">$</span> uv init my-app -p 3.13 &amp;&amp; cd my-app
+<span class="t-p">$</span> uv run my-app
+<span class="t-o">Using CPython 3.13.16
+Creating virtual environment at: .venv
+…
+Hello from my-app!</span>
+<span class="t-c"># add dependencies and dev tools (pyproject + uv.lock update)</span>
 <span class="t-p">$</span> uv add httpx rich
-<span class="t-p">$</span> uv run weather-cli Seattle
-<span class="t-o">       Weather in Seattle, US
-┌─────────────┬────────────────────┐
-│ Metric      │ Value              │
-├─────────────┼────────────────────┤
-│ Temperature │ 11.6 °C  (52.9 °F) │
-│ Wind        │ 6.5 km/h           │
-└─────────────┴────────────────────┘</span></pre>
+<span class="t-p">$</span> uv add --dev pytest ruff</pre>
       </figure>
     </div>
 
